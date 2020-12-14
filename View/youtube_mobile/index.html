@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Youtube mobile</title>
     <script src="https://kit.fontawesome.com/6add59f0c7.js" crossorigin="anonymous"></script>
 </head>
@@ -24,8 +25,8 @@
         <video controls autoplay src="video/motionplaces0042-c008-q001.mp4"></video>
     </section>
 
-
-    <!-- Video Info -->
+    <div class="infoAndUpNext">
+        <!-- Video Info -->
     <section class="info">
         <!-- Metadata-->
         <div class="metadata">
@@ -45,13 +46,11 @@
                     <i class="fas fa-caret-down"></i>
                 </button>
             </div>
-            <div class="views">
-                <span class="views">1M views 1months ago</span>
-            </div>  
+            <span class="views">1M views 1 months ago</span>
         </div>
         <ul class="actions">
             <li>
-                <button><i class="fas fa-thumbs-up"></i><span>1K</span></button>
+                <button><i class="active fas fa-thumbs-up"></i><span>1K</span></button>
             </li>
             <li>
                 <button><i class="fas fa-thumbs-down"></i><span>0</span></button>
@@ -82,8 +81,8 @@
         <span class="title">Up next</span>
         <ul>
             <li class="item">
-                <img src="image/스크린샷 2020-10-21 오전 1.21.00.png" alt="">
-                <div class="info">
+                <div class="img"><img src="image/3.png" alt=""/></div>
+                <div class="c_info">
                     <span class="title">[playlist] 답답한 마음을 뻥 뚫리게 하는 플레이리스트 
                         | Hiphop, Jazz, R&B, 신나는 노래, 나만 알고싶은 노래
                         | 2020 부셔버리기
@@ -94,8 +93,8 @@
                 <button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
             </li>
             <li class="item">
-                <img src="image/스크린샷 2020-11-02 오후 4.15.25.png" alt="">
-                <div class="info">
+                <div class="img"><img src="image/2.png" alt="" /></div>
+                <div class="c_info">
                     <span class="title">[playlist] 아침에 일어나서 듣기 좋은 플레이리스트
                         | Pop, R&B, 감성 음악
                         | Wake up in the morning
@@ -104,11 +103,10 @@
                     <span class="views">102K views</span>
                 </div>
                 <button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
-
             </li>
             <li class="item">
-                <img src="image/스크린샷 2020-11-02 오후 4.19.18.png" alt="">
-                <div class="info">
+                <div class="img"><img src="image/3.png" alt=""/></div>
+                <div class="c_info">
                     <span class="title">[playlist] 세상 그 누구보다 내가 제일 특별해지는 노래
                         | 인디음악, Jazz, Pop, R&B soul, 힙한 음악
                         | Make your own stuff
@@ -120,5 +118,8 @@
             </li>
         </ul>
     </section>
+
+    </div>
+    
 </body>
 </html>
