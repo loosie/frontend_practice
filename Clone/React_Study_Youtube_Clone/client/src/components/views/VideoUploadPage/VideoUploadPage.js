@@ -26,6 +26,11 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
     const [Category, setCategory] = useState("Film & Animation")
+
+    //* 비디오, 썸네일 정보 
+    const [FilePath, setFilePath] = useState("")
+    const [Duration, setDuration] = useState("")
+    const [ThumbnailPath, setThumbnailPath] = useState("")
  
     const onTitleChange = (event) =>{
         // console.log(event); 이벤트 발생
@@ -55,7 +60,29 @@ function VideoUploadPage() {
         Axios.post('/api/video/uploadfiles', formData, config)
             .then(res =>{
                 if(res.data.success){
-                    console.log(res.data);
+                    console.log(res.data)
+
+                    //* 서버에서 받은 데이터
+                    let variable ={
+                        url: res.data.url,
+                        fileName: res.data.fileName
+                    }
+
+                    setFilePath(res.data.url)
+
+                    Axios.post('/api/video/thumbnail', variable)
+                        .then(res => {
+                            if(res.data.success){
+                                console.log(res.data)
+
+                                setDuration(res.data.fileDuration)
+                                setThumbnailPath(res.data.url)
+                            }else{
+                                alert('썸네일 생성에 실패 했습니다.')
+                            }
+                        })
+                
+                    
                 }else{
                     alert('비디오 업로드를 실패하였습니다.')
                 }
@@ -84,13 +111,19 @@ function VideoUploadPage() {
 
                         </div>
                     )}
+
                     </Dropzone>
+                    {/* Thumbnail */
+                    // ThumbnailPath가 있을 때만 렌더링됨
+                    }
+                    {ThumbnailPath &&
+                        <div>
+                            <img src={`http://localhost:5000/${ThumbnailPath}`} art="thumbnail" />
+                        </div>
+                    }
+                    
                     
 
-                    {/* Thumbnail */}
-                    <div>
-                        <img src art />
-                    </div>
                 </div>
                 
 
