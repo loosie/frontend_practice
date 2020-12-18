@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const { Video } = require("../models/Video");
+const { Video } = require("../models/Video");
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
@@ -48,8 +48,22 @@ router.post('/uploadfiles', (req, res) =>{
         
     })
     
-})
+});
 
+//* MongoDB에 비디오 저장
+//* req: VideoUploadPage.onSumbit.variables
+router.post('/uploadVideo', (req, res) =>{
+
+    //* client에서 보내준 비디오 정보를 저장
+    const video =  new Video(req.body)
+
+    //* MongoDB에 저장
+    video.save((err, doc) =>{
+        if(err) return res.json({ success: false, err})
+        res.status(200).json({ success: true})
+    }) 
+    
+});
 
 //* 썸네일 생성하고 비디오 러닝타임 가져오기
 router.post('/thumbnail', (req, res) =>{
