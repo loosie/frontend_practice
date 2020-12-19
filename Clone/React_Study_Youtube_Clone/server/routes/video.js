@@ -33,6 +33,7 @@ const upload = multer({ storage : storage }).single("file");
 //             Video
 //=================================
 
+
 //* 비디오를 서버에 저장
 //* req를 통해 비디오 파일을 받는다
 router.post('/uploadfiles', (req, res) =>{
@@ -49,6 +50,7 @@ router.post('/uploadfiles', (req, res) =>{
     })
     
 });
+
 
 //* MongoDB에 비디오 저장
 //* req: VideoUploadPage.onSumbit.variables
@@ -69,13 +71,30 @@ router.post('/uploadVideo', (req, res) =>{
 //* MongoDB에서 비디오 가져와서 클라이언트에 보내기
 router.get('/getVideos', (req, res) =>{
     
-    //* video collection안에 있는 모든 비디오 가져옴
+    console.log(req.body);
     //* video collection안에 있는 모든 비디오 가져옴
     Video.find()
         .populate('writer')
         .exec((err, videos) =>{
             if(err) return res.status(400).send(err);
             res.status(200).json({ success: true, videos})
+        })
+
+    
+});
+
+//* MongoDB에서 videoDetail에 보여줄 비디오 정보 클라이언트에 보내기
+//* post인 이유 /getVideoDetail : {id} -> videoDetail정보 get
+router.post('/getVideoDetail', (req, res) =>{
+
+    console.log(req.body);
+
+    //* video Id에 맞는 video정보 가져오기
+    Video.findOne({ "_id" : req.body.videoId})
+        .populate('writer') // objectId로 되어있는 해당 객체 정보 펼쳐보기
+        .exec((err, videoDetail) => {
+            if(err) return res.status(400).send(err)
+            return res.status(200).json({ success: true, videoDetail })
         })
 
     
@@ -93,7 +112,7 @@ router.post('/thumbnail', (req, res) =>{
     ffmpeg.ffprobe(req.body.url, function(err, metadata){
         console.dir(metadata); // all metadata
         console.log(metadata.format.duration);
-        fileDuration = metadata.format.duration
+        fileDuration = metadata.format.duration;
     });
 
     //* 썸네일 생성

@@ -52,7 +52,7 @@ function VideoUploadPage(props) {
     }
     //* 비디오 업로드 & 썸네일 생성
     const onDrop = (files) => {
-        let formData = new FormData;
+        let formData = new FormData();
         const config = {
             header : {'content-type': 'multipart/form-data'}
         }

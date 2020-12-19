@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+/** 
+ * * 비디오 컬렉션 (Table)
+ */
 const videoSchema = mongoose.Schema({
 
     writer: {
