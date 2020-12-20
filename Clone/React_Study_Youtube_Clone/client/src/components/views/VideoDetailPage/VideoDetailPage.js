@@ -24,6 +24,7 @@ function VideoDetailPage(props) {
         })
     }, [])
     
+    // console.log(localStorage.getItem('userId'));
 
     if(VideoDetail.writer){
         return (
@@ -32,8 +33,10 @@ function VideoDetailPage(props) {
                     <div style={{ width: '100%', padding:'3rem 4rem'}}>
                         <video style={{ width: '100%'}}  src={`http://localhost:5000/${VideoDetail.filePath}`} controls/>
 
+                        {/* 구독정보 받기 위해 writer._id가져오기
+                         구독하기 위해 userId 가져오기 */}
                         <List.Item
-                            actions={[<Subscribe userTo={VideoDetail.writer._id}/>]} //* 구독정보 받기 위해 writer._id가져오기
+                            actions={[<Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />]} 
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={VideoDetail.writer.image} />}

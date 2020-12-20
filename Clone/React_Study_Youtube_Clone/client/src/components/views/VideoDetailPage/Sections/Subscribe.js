@@ -6,11 +6,45 @@ function Subscribe(props) {
     const [SubscribeNumber, setSubscribeNumber] = useState(0)
     const [Subscribed, setSubscribed] = useState(false)
 
-    useEffect(() => {
-        
-        let variable = { userTo: props.userTo}
+    //* userFrom : userId는 로그인할 때 localStorage에 넣어놔서 어디서든 사용할 수 있게 해놨음
+    
+     //* 구독하기
+    let subscribedVariable = { userTo: props.userTo, userFrom: props.userFrom}
+    
+    const onSubscribe = () => {    
+     
+        console.log(props.userFrom);
 
-        Axios.post('/api/subscribe/subscribeNumber', variable) // 작성자의 Id를 넣어서 그 사람의 구독자 정보를 받아옴
+        //이미 구독중이라면
+        if(Subscribed){
+            Axios.post('/api/subscribe/unSubscribe', subscribedVariable)
+                .then( res =>{
+                    if(res.data.success){
+                        setSubscribeNumber(SubscribeNumber - 1);
+                        setSubscribed(!Subscribed);
+                    }else{
+                        alert('구독 취소하는데 실패했습니다.')
+                    }
+                })
+        }
+        //아직 구독중이 아니라면
+        else{
+            Axios.post('/api/subscribe/subscribe', subscribedVariable)
+            .then( res =>{
+                if(res.data.success){
+                    setSubscribeNumber(SubscribeNumber + 1);
+                    setSubscribed(!Subscribed);
+                }else{
+                    alert('구독하는데 실패했습니다.')
+                }
+            })
+
+        }
+    }
+
+    useEffect(() => {
+
+        Axios.post('/api/subscribe/subscribeNumber', subscribedVariable) // 작성자의 Id를 넣어서 그 사람의 구독자 정보를 받아옴
             .then( res => {
                 if(res.data.success){
                     console.log(res.data.subscribeNumber);
@@ -20,8 +54,7 @@ function Subscribe(props) {
                 }
             })
             
-            //* userFrom : userId는 로그인할 때 localStorage에 넣어놔서 어디서든 사용할 수 있게 해놨음
-            let subscribedVariable = { userTo: props.userTo, userFrom: localStorage.getItem('userId')}
+        
         
             //* 내가 해당 비디오 업로드한 유저를 구독하고 있는지 정보 가져오기
             Axios.post('/api/subscribe/subscribed', subscribedVariable)
@@ -36,14 +69,15 @@ function Subscribe(props) {
             
     }, [])
 
+  
 
     return (
         <div>
             <button
-                style={{ backgroundColor: `${Subscribe ? '#CC0000' : '#AAAAAA'}`,
+                style={{ backgroundColor: `${Subscribed ? '#AAAAAA' : '#CC0000' }`,
                         borderRadius: '4px', color: 'white', padding: '10px 16px',
                         fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'}}
-                onClick
+                onClick={onSubscribe}
             >
                 {SubscribeNumber} {Subscribed? 'Subscribed': 'Subscribe' }
             </button>

@@ -4,6 +4,7 @@ const multer = require("multer");
 var ffmpeg = require("fluent-ffmpeg");
 
 const { Subscriber } = require("../models/Subscriber");
+const { response } = require('express');
 
 
 //=================================
@@ -26,7 +27,7 @@ router.post('/subscribeNumber', (req, res) =>{
 
 //* MongoDB에 해당 유저가 구독되어있는지 정보 가져오기 
 // * (userTo, userFrom) -> result (0: 구독x, 1: 구독o )
-router.post('/subscirbed', (req, res) =>{
+router.post('/subscribed', (req, res) =>{
    
     Subscriber.find({ 'userTo': req.body.userTo, 'userFrom': req.body.userFrom })
         .exec((err, subscribe)=>{
@@ -40,6 +41,32 @@ router.post('/subscirbed', (req, res) =>{
    
 });
 
+
+//* 구독이 되어있다면 구독 취소하기
+//* (userTo, userFrom) -> 해당 컬럼 삭제 후 Subscriber doc반환
+router.post('/unSubscribe', (req, res) =>{
+   
+    Subscriber.findOneAndDelete({ userTo: req.body.userTo ,userFrom: req.body.userFrom })
+        .exec((err, doc) =>{
+            if(err) return res.status(400).json({ success: false, err })
+            res.status(200).json({ success: true, doc })
+        })
+
+   
+});
+
+//* 구독이 되어있지않다면 구독하기
+//* (userTo, userFrom) 칼럼 생성하기
+router.post('/subscribe', (req, res) =>{
+   
+    const subscribe = new Subscriber(req.body)
+    
+    subscribe.save((err, doc)=>{
+        if(err) return res.json({ success: false, err})
+        res.status(200).json({ success: true })
+    })
+   
+});
 
 
 module.exports = router;
