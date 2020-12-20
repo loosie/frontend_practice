@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { Video } = require("../models/Video");
 
-const { auth } = require("../middleware/auth");
 const multer = require("multer");
 var ffmpeg = require("fluent-ffmpeg");
 const { ffprobe } = require('fluent-ffmpeg');
@@ -67,27 +66,9 @@ router.post('/uploadVideo', (req, res) =>{
     
 });
 
-
-//* MongoDB에서 비디오 가져와서 클라이언트에 보내기
-router.get('/getVideos', (req, res) =>{
-    
-    console.log(req.body);
-    //* video collection안에 있는 모든 비디오 가져옴
-    Video.find()
-        .populate('writer')
-        .exec((err, videos) =>{
-            if(err) return res.status(400).send(err);
-            res.status(200).json({ success: true, videos})
-        })
-
-    
-});
-
 //* MongoDB에서 videoDetail에 보여줄 비디오 정보 클라이언트에 보내기
-//* post인 이유 /getVideoDetail : {id} -> videoDetail정보 get
+//* post인 이유 : req를 통해 videoId받아서 그에 맞는 비디오를 조회하기 위해
 router.post('/getVideoDetail', (req, res) =>{
-
-    console.log(req.body);
 
     //* video Id에 맞는 video정보 가져오기
     Video.findOne({ "_id" : req.body.videoId})
@@ -99,6 +80,23 @@ router.post('/getVideoDetail', (req, res) =>{
 
     
 });
+
+
+//* MongoDB에서 비디오 가져와서 클라에 보내기
+router.get('/getVideos', (req, res) =>{
+    
+    //* video collection안에 있는 모든 비디오 가져옴
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) =>{
+            if(err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos})
+        })
+
+    
+});
+
+
 
 //* 썸네일 생성하고 비디오 러닝타임 가져오기
 router.post('/thumbnail', (req, res) =>{
