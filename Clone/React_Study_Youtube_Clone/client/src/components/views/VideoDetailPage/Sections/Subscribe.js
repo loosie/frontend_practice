@@ -6,14 +6,12 @@ function Subscribe(props) {
     const [SubscribeNumber, setSubscribeNumber] = useState(0)
     const [Subscribed, setSubscribed] = useState(false)
 
-    //* userFrom : userId는 로그인할 때 localStorage에 넣어놔서 어디서든 사용할 수 있게 해놨음
+    
     
      //* 구독하기
-    
-    
     const onSubscribe = () => {    
+        //* userFrom : userId는 로그인할 때 localStorage에 넣어놔서 어디서든 사용할 수 있게 해놨음
         let subscribedVariable = { userTo: props.userTo, userFrom: props.userFrom} 
-        console.log(props.userFrom);
 
         //이미 구독중이라면
         if(Subscribed){
@@ -55,7 +53,6 @@ function Subscribe(props) {
             })
             
         
-            console.log(props.userFrom);
         
             //* 내가 해당 비디오 업로드한 유저를 구독하고 있는지 정보 가져오기
             Axios.post('/api/subscribe/subscribed', subscribedVariable)
