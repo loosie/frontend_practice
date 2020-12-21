@@ -26,6 +26,9 @@ function VideoDetailPage(props) {
     
 
     if(VideoDetail.writer){
+
+        const subscribeButton = VideoDetail.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />
+
         return (
             <Row gutter={[16, 16]}>
                 <Col lg={18} xs={24}>
@@ -35,7 +38,7 @@ function VideoDetailPage(props) {
                         {/* 구독정보 받기 위해 writer._id가져오기
                          구독하기 위해 userId 가져오기 */}
                         <List.Item
-                            actions={[<Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />]} 
+                            actions={[subscribeButton]} 
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={VideoDetail.writer.image} />}
