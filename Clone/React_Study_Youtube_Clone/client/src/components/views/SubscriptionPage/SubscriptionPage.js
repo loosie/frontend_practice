@@ -7,15 +7,15 @@ import moment from 'moment';
 const { Title } = Typography;
 const { Meta } = Card;
 
-function LandingPage() {
-
-    //* Video정보 state에 저장
+function SubscriptionPage() {
+    
     const [Video, setVideo] = useState([])
 
-    //* React Hooks : useEffect === class component : componetDidMount
+    let variable = { userFrom : localStorage.getItem('userId') }
+    
+    
     useEffect(() =>{
-
-        axios.get('/api/video/getVideos')
+        axios.post('/api/video/getSubscriptionVideos', variable)
             .then(res=>{
                 if(res.data.success){
                     console.log(res.data);
@@ -26,10 +26,8 @@ function LandingPage() {
             })
     }, [])
 
-    
 
-    //* 몽고 DB에서 비디오 가져오기
-    const renderCards = Video.map((video, index)=>{
+     const renderCards = Video.map((video, index)=>{
 
         var minutes = Math.floor(video.duration / 60);
         var seconds = Math.floor((video.duration - minutes *60));
@@ -39,10 +37,10 @@ function LandingPage() {
                         <a href={`/video/${video._id}`}>
                             <img style={{ width: '100%'}} src={`http://localhost:5000/${video.thumbnail}`} alt="thumbnail" />
                             <div className="duration">
-                                {/*  style={{  bottom: 0, right: 0, position: 'absolute', margin: '4px',
-                                 color: '#fff', backgroundColor: 'rgba(17, 17, 17, 0.8)', opacity: 0.8,
-                                 padding: '2px 4px', borderRadius: '2px', letterSpacing: '0.5px',
-                                 fontSize: '12px', fontWeight: '500', lineHeight: '12px'}}> */}
+                                {/* style={{  bottom: 0, right: 0, position: 'absolute', margin: '4px', 
+                                color: '#fff', backgroundColor: 'rgba(17, 17, 17, 0.8)', opacity: 0.8,
+                                padding: '2px 4px', borderRadius: '2px', letterSpacing: '0.5px',
+                                fontSize: '12px', fontWeight: '500', lineHeight: '12px'}}>*/}
                                     <span>{minutes} : {seconds}</span>
                             </div>
                         </a>
@@ -77,6 +75,7 @@ function LandingPage() {
 
         </div>
     )
+
 }
 
-export default LandingPage
+export default SubscriptionPage

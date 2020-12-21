@@ -9,10 +9,10 @@ function Subscribe(props) {
     //* userFrom : userId는 로그인할 때 localStorage에 넣어놔서 어디서든 사용할 수 있게 해놨음
     
      //* 구독하기
-    let subscribedVariable = { userTo: props.userTo, userFrom: props.userFrom}
+    
     
     const onSubscribe = () => {    
-     
+        let subscribedVariable = { userTo: props.userTo, userFrom: props.userFrom} 
         console.log(props.userFrom);
 
         //이미 구독중이라면
@@ -43,7 +43,7 @@ function Subscribe(props) {
     }
 
     useEffect(() => {
-
+        let subscribedVariable = { userTo: props.userTo, userFrom: props.userFrom}
         Axios.post('/api/subscribe/subscribeNumber', subscribedVariable) // 작성자의 Id를 넣어서 그 사람의 구독자 정보를 받아옴
             .then( res => {
                 if(res.data.success){
@@ -55,6 +55,7 @@ function Subscribe(props) {
             })
             
         
+            console.log(props.userFrom);
         
             //* 내가 해당 비디오 업로드한 유저를 구독하고 있는지 정보 가져오기
             Axios.post('/api/subscribe/subscribed', subscribedVariable)

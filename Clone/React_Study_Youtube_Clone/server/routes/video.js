@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Video } = require("../models/Video");
+const { Subscriber } = require("../models/Subscriber");
 
 const multer = require("multer");
 var ffmpeg = require("fluent-ffmpeg");
@@ -82,7 +83,39 @@ router.post('/getVideoDetail', (req, res) =>{
 });
 
 
-//* MongoDB에서 비디오 가져와서 클라에 보내기
+//* MongoDB에서 구독한 유저의 비디오만 가져오기
+//* req: subscriptionVariables(본인 Id) -> 구독한 사람 Id -> 그 Id들의 비디오 조회
+router.post('/getSubscriptionVideos', (req, res) =>{
+
+    console.log(req.body.useFrom);
+    
+    //* 자신의 Id를 가지고 구독하는 사람 찾기
+    Subscriber.find({ 'userFrom': req.body.userFrom })
+        .exec((err, subscribers)=> {
+            if(err) return res.status(400).send(err);
+
+            let subscribedUser = [];
+
+            // 구독하는 사람 정보 배열에 넣기
+            subscribers.map((subscriber, i) =>{
+                subscribedUser.push(subscriber.userTo)
+            })        
+        
+
+            //* 구독한 사람들의 비디오를 가져오기
+            // $in : MongoDb에서 하나가 아닌 여러개의 정보를 꺼내올 때 사용
+            Video.find({ writer:{ $in : subscribedUser } })
+                .populate('writer')
+                .exec((err, videos)=> {
+                    if(err) return res.status(400).send(err);
+                    res.status(200).json({ success: true, videos })
+                })
+
+    })
+});
+
+
+//* MongoDB에서 비디오 가져오기
 router.get('/getVideos', (req, res) =>{
     
     //* video collection안에 있는 모든 비디오 가져옴
