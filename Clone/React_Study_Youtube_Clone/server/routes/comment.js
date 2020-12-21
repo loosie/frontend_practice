@@ -13,7 +13,7 @@ const { response } = require('express');
 
 
 //* MongoDB에 댓글정보 저장하기
-//* req: {content,writer,postId} -> DB 저장(저장한 comment 칼럼 반환)
+//* req: {content,writer,videoId} -> DB 저장(저장한 comment 칼럼 반환)
 router.post('/saveComment', (req, res) =>{
 
     const comment = new Comment(req.body)
@@ -30,6 +30,20 @@ router.post('/saveComment', (req, res) =>{
     })
 });
 
+
+
+//* MongoDB에서 비디오에 달린 댓글 모두 가져오기
+//* req: {videoId} -> 해당 videoId에 달린 댓글 모두 가져오기
+router.post('/getComments', (req, res) =>{
+
+    Comment.find({ "videoId" : req.body.videoId })
+        .populate('writer')
+        .exec((err, comments)=>{
+            if(err) return res.status(400).send(err)
+            res.status(200).json({ success: true, comments })
+        })
+ 
+});
 
 
 

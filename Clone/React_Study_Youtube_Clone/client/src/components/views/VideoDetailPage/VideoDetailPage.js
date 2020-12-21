@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import { Row, Col, List, Avatar } from 'antd';
-import Axios from 'axios';
+import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
@@ -11,9 +11,10 @@ function VideoDetailPage(props) {
     const variable = { videoId: videoId };
 
     const [VideoDetail, setVideoDetail] = useState([]);
+    const [Comments, setComments] = useState([])
     
     useEffect(() => {
-        Axios.post('/api/video/getVideoDetail', variable) // post : variable (videoId) > 서버에게 전송
+        axios.post('/api/video/getVideoDetail', variable) // post : variable (videoId) > 서버에게 전송
         .then(res=> {
             if(res.data.success){
                 console.log(res.data);
@@ -22,8 +23,25 @@ function VideoDetailPage(props) {
                 alert('비디오 정보 가져오기를 실패하였습니다')
             }
         })
+
+        //해당 비디오 모든 Comment정보 가져오기
+        axios.post('/api/comment/getComments', variable)
+        .then(res =>{
+            if(res.data.success){
+                console.log(res.data);
+                setComments(res.data.comments)
+            }else{
+                alert('코멘트 정보를 가져오는 것을 실패하였습니다')
+            }
+        })
+        
+
+
     }, [])
     
+    const refreshFunction = (newComment) =>{
+        setComments(Comments.concat(newComment))
+    }
 
     if(VideoDetail.writer){
 
@@ -49,7 +67,7 @@ function VideoDetailPage(props) {
                         </List.Item>
 
                         {/* Comments */}
-                        <Comment postId={VideoDetail._id}/>
+                        <Comment refreshFunction={refreshFunction} commentLists={Comments} videoId={VideoDetail._id}/>
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>

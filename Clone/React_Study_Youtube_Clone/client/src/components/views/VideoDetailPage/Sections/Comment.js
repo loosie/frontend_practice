@@ -1,10 +1,11 @@
 import Axios from 'axios'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
+import SingleComment from './SingleComment';
 
 function Comment(props){
     
-
+    console.log(props.refreshFunction);
     //redux에 있는 user정보
     const user = useSelector(state => state.user); 
 
@@ -20,13 +21,15 @@ function Comment(props){
         const variables = {
             content: commentValue,
             writer: user.userData._id,
-            postId: props.postId
+            videoId: props.videoId
         }
 
         Axios.post('/api/comment/saveComment', variables)
         .then(res =>{
             if(res.data.success){
                 console.log(res.data);
+                setcommentValue("")
+                props.refreshFunction(res.data.result)
             } else{
                 alert('커멘트를 저장하지 못했습니다.')
             }
@@ -40,6 +43,12 @@ function Comment(props){
             <hr />
 
             {/* Comment Lists */}
+            {props.commentLists && props.commentLists.map((comment, index)=>(
+                (!comment.responseTo &&
+                    <SingleComment refreshFunction={props.refreshFunction} comment={comment} videoId={props.videoId} />
+                )
+            ))}
+            
 
             {/* Root Comment Form */}
 

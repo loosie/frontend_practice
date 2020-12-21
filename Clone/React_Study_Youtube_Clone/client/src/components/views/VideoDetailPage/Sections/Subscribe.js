@@ -10,6 +10,7 @@ function Subscribe(props) {
     
      //* 구독하기
     const onSubscribe = () => {    
+       
         //* userFrom : userId는 로그인할 때 localStorage에 넣어놔서 어디서든 사용할 수 있게 해놨음
         let subscribedVariable = { userTo: props.userTo, userFrom: props.userFrom} 
 
