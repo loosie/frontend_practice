@@ -3,6 +3,7 @@ import { Row, Col, List, Avatar } from 'antd';
 import Axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
+import Comment from './Sections/Comment';
 
 function VideoDetailPage(props) {
 
@@ -11,7 +12,6 @@ function VideoDetailPage(props) {
 
     const [VideoDetail, setVideoDetail] = useState([]);
     
-
     useEffect(() => {
         Axios.post('/api/video/getVideoDetail', variable) // post : variable (videoId) > 서버에게 전송
         .then(res=> {
@@ -24,7 +24,6 @@ function VideoDetailPage(props) {
         })
     }, [])
     
-    // console.log(localStorage.getItem('userId'));
 
     if(VideoDetail.writer){
         return (
@@ -47,6 +46,7 @@ function VideoDetailPage(props) {
                         </List.Item>
 
                         {/* Comments */}
+                        <Comment />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
