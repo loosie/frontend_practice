@@ -4,6 +4,7 @@ import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
+import LikeDislikes from './Sections/LikeDislikes';
 
 function VideoDetailPage(props) {
 
@@ -56,7 +57,8 @@ function VideoDetailPage(props) {
                         {/* 구독정보 받기 위해 writer._id가져오기
                          구독하기 위해 userId 가져오기 */}
                         <List.Item
-                            actions={[subscribeButton]} 
+                            actions={[ <LikeDislikes videoId={videoId} userId={localStorage.getItem('userId')}/>,
+                                        subscribeButton]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={VideoDetail.writer.image} />}
