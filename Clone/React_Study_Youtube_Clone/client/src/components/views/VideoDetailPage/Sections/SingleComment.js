@@ -11,32 +11,33 @@ function SingleComment(props) {
     const user = useSelector(state => state.user); 
 
     const [OpenReply, setOpenReply] = useState(false)
-    const [CommentValue, setCommentValue] = useState()
+    const [commentValue, setcommentValue] = useState()
 
     const onClickReplyOpen = () =>{
         setOpenReply(!OpenReply)
         
     }
 
-    const onHandChange = (event) =>{
-        setCommentValue(event.currentTarget.CommentValue)
+    const onHandleChange = (event) =>{
+        setcommentValue(event.currentTarget.value)
     }
 
     const onSubmit = (event) =>{
         event.preventDefault();
 
         const variables = {
-            content: CommentValue,
+            content: commentValue,
             writer: user.userData._id,
             videoId: props.videoId,
-            responsTo: props.comment._id
+            responseTo: props.comment._id
         }
 
         Axios.post('/api/comment/saveComment', variables)
         .then(res =>{
             if(res.data.success){
-                console.log(res.data);
-                setCommentValue("")
+                console.log(res.data.result);
+                setOpenReply(false)
+                setcommentValue("")
                 props.refreshFunction(res.data.result)
             } else{
                 alert('커멘트를 저장하지 못했습니다.')
@@ -60,8 +61,8 @@ function SingleComment(props) {
                     <form style={{ display: 'flex'}} onSubmit={onSubmit}>
                     <textarea
                         style={{ width: '100%', borderRadius: '5px'}}
-                        onChange={onHandChange}
-                        value={CommentValue}
+                        onChange={onHandleChange}
+                        value={commentValue}
                         placeholder="코멘트를 작성해주세요"
                     />        
                         
