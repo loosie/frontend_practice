@@ -1,3 +1,9 @@
+#Reference
+
+Youtube : https://www.youtube.com/watch?v=I2UBjN5ER4s&t=4572s&ab_channel=BrianDesign
+Github : https://github.com/briancodex/react-website-v1/tree/starter
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
