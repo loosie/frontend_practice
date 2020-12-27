@@ -15,7 +15,7 @@ export const SidebarContainer = styled.aside`
     left: 0;
     transition: 0.3s ease-in-out;
     opacity: ${({ isOpen }) => (isOpen ? '100%' : '0')};
-    top: ${({ isOpen }) => (isOpen ? '0' : '-100%')};    
+    top: ${({ isOpen }) => (isOpen ? '0' :  '-100%')};    
     
 `;
 
@@ -74,10 +74,10 @@ export const SideBtnWrap = styled.div`
 
 export const SidebarRoute = styled(LinkR)`
     border-radius: 50px;
-    background: #01bf71;
+    background: #285DF5;
     white-space: nowrap;
     padding: 16px 64px;
-    color: #010606;
+    color: #fff;
     font-size: 16px;
     outline: none;
     border: none;
