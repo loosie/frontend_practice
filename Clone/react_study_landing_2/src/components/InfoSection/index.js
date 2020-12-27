@@ -3,22 +3,22 @@ import { InfoContainer, InfoWrapper, InfoRow,
     Column1, Column2, TextWrapper, TopLine, Heading,
     Subtitle, BtnWrap, ImgWrap, Img} from './InfoElements'
 import { Button } from "../ButtonElement";
-import pic from '../../images/png-1.png';
 
 
 
-const InfoSection = ({lightbBg, id, imgStart, topLine, lightText,
-headLine, darkText, description, buttonLabel, img, alt, primary, dark, dark2}) => {
+
+const InfoSection = ({lightBg, id, imgStart, topLine, lightText,
+headLine, lightTextDesc, description, buttonLabel, img, pic, alt, primary, dark, dark2}) => {
     return (
         <>
-            <InfoContainer lightbBg={lightbBg} id={id}>
+            <InfoContainer lightBg={lightBg} id={id}>
                 <InfoWrapper>
                     <InfoRow imgStart={imgStart}>
                         <Column1>
                         <TextWrapper>
                             <TopLine>{topLine}</TopLine>
                             <Heading lightText={lightText}>{headLine}</Heading>
-                            <Subtitle darkText={darkText}>{description}</Subtitle>
+                            <Subtitle lightTextDesc={lightTextDesc}>{description}</Subtitle>
                             <BtnWrap>
                                 <Button to='home'
                                 smooth={true}
