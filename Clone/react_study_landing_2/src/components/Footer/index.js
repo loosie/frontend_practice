@@ -4,8 +4,14 @@ import { FooterContainer, FooterWrap, FooterLinksContainer, FooterLinksWrapper,
     FooterLinkItems, FooterLinkTitle, FooterLink,
 SocialMedia, SocialMediaWrap, SocialLogo,
 WebsiteRights, SocialIcons, SocialIconLink } from "./FooterElements";
+import { animateScroll as scroll } from 'react-scroll'
 
 const Footer = () => {
+
+    const toggleHome = () => {
+        scroll.scrollToTop();
+    };
+
     return (
         <FooterContainer>
             <FooterWrap>
@@ -49,7 +55,7 @@ const Footer = () => {
 
                 <SocialMedia>
                     <SocialMediaWrap>
-                        <SocialLogo to='/'>
+                        <SocialLogo to='/' onClick={toggleHome}>
                             Bluedot
                         </SocialLogo>
                         <WebsiteRights>Bluedot © {new Date().getFullYear()}
