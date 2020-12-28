@@ -8,7 +8,7 @@ import { Button } from "../ButtonElement";
 
 
 const InfoSection = ({lightBg, id, imgStart, topLine, lightText,
-headLine, lightTextDesc, description, buttonLabel, img, pic, alt, primary, dark, dark2}) => {
+headLine, lightTextDesc, description, buttonLabel, img, pic, alt, primary, dark, dark2, btn}) => {
     return (
         <>
             <InfoContainer lightBg={lightBg} id={id}>
@@ -29,6 +29,7 @@ headLine, lightTextDesc, description, buttonLabel, img, pic, alt, primary, dark,
                                 primary={primary ? 1 : 0}
                                 dark={dark ? 1 : 0}
                                 dark2={dark2 ? 1 : 0}
+                                btn='true'
                                 >
                                 {buttonLabel}
                                 </Button>

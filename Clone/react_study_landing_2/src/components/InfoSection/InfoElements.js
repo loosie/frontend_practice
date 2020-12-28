@@ -83,7 +83,7 @@ export const Subtitle = styled.p`
 
 export const BtnWrap = styled.div`
     display: flex;
-    justify-content: flex-start;
+    justify-content: ${({ btn }) => (btn ? `'flex-start'` : `'flex-end'`)};
 `
 
 export const ImgWrap = styled.div`

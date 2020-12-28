@@ -26,11 +26,11 @@ export const HomeObjTwo = {
     headLine: '팬을 만들고 다양한 소통',
     description: '블루닷의 팬과 아티스트간의 간편하고 다양한 상호 소통을 지원합니다',
     buttonLabel: 'Get Started',
-    imgStart: false,
+    imgStart: true,
     img: require('../../images/svg-1.svg'),
     alt: 'Communication',
     dark: true,
-    primary: true,
+    primary: false
     // darkText: true
     
 }
@@ -48,7 +48,7 @@ export const HomeObjThree = {
     img: require('../../images/svg-1.svg'),
     alt: 'Freedom',
     dark: true,
-    primary: true,
+    primary: true
     // darkText: true
     
 }
