@@ -30,6 +30,13 @@ const HeroSection = () => {
                     onMouseLeave={onHover}
                     primary='true'
                     white='true'
+                    
+                    // 스크롤 스무스하게
+                    smooth={true} 
+                    duration={500}
+                    spy={true}
+                    exact='true'
+                    offset={-80} 
                     >
                     Get Started {hover? <ArrowForward /> : <ArrowRight />}
                     </Button>
