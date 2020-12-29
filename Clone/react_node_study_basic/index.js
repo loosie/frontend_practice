@@ -17,7 +17,7 @@ mongoose.connect('mongodb+srv://loosie2:<password>@boiler-plate.eigsa.mongodb.ne
     .catch(err => console.log(err));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello Worlsd!')
 })
 
 app.post('/register', (req, res) =>{
