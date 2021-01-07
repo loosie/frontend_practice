@@ -11,14 +11,14 @@ const initialState = {
         mainPosts: [],
     }
 };
-
+// action creator
 export const loginAction = (data) => {
     return {
         type: 'LOG_IN',
         data,
     }
 }
-
+// action creator
 export const logoutAction = () => {
     return {
         type: 'LOG_OUT',
@@ -30,14 +30,14 @@ export const logoutAction = () => {
 
 
 // action creator
-const changeNickname= (data) => {
-    return {
-        type: 'CHANGE_NICKNAME',
-        data,
-    }
-};
+// const changeNickname= (data) => {
+//     return {
+//         type: 'CHANGE_NICKNAME',
+//         data,
+//     }
+// };
 
-changeNickname('boogicho');
+// changeNickname('boogicho');
 
 
 // (이전상태, 액션) => 다음상태
