@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'
 import Head from 'next/head'
 import wrapper from '../store/configureStore';
 
-const App = ({ Component }) => {
+const Nodebird = ({ Component }) => {
     return (
         <>
         <Head>
@@ -17,8 +17,8 @@ const App = ({ Component }) => {
     )
 };
 
-App.propTypes = {
+Nodebird.propTypes = {
     Component: PropTypes.elementType.isRequired,
 }
 
-export default wrapper.withRedux(App);
+export default wrapper.withRedux(Nodebird);

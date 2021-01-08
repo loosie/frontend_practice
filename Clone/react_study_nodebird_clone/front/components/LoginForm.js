@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import useInput from './hooks/useinput';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../reducers';
+import { loginAction } from '../reducers/user';
 
 const BtnWrapper = styled.div`
     margin-top: 10px;

@@ -13,10 +13,10 @@ const configureStore = () => {
 
     const store = createStore(reducer, enhancer);
 
-    store.dispatch({
-        type: 'CHANGE_NICKNAME',
-        data: 'boogicho',
-    })
+    // store.dispatch({
+    //     type: 'CHANGE_NICKNAME',
+    //     data: 'boogicho',
+    // })
     return store;
 
 };
