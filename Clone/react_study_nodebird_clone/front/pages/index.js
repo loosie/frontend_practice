@@ -3,7 +3,7 @@
 import { useSelector } from 'react-redux';
 import AppLayout from '../components/AppLayout'
 import PostCard from '../components/PostCard';
-import PostForm from '../components/PostForm';
+import PostForm from '../components/form/PostForm';
 
 
 const Home = () => {

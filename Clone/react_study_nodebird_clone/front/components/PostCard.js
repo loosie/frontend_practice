@@ -5,7 +5,7 @@ import { Card, Popover, Button, Comment, List} from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 import Avatar from 'antd/lib/avatar/avatar';
 import PostImages from './PostImages';
-import CommentForm from './CommentForm';
+import CommentForm from './form/CommentForm';
 
 
 const PostCard = ({ post } ) => {
