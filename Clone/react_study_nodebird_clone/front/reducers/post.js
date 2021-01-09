@@ -5,7 +5,7 @@ export const initialState = {
             id: 1,
             nickname: 'loosie',
         },
-        content: '첫 번째 게시글 #해시ㅐ그 #익스프레스',
+        content: '첫 번째 게시글 #해시태그 #익스프레스',
         Images: [{
             src: '../../../images/image1.jpg'
         }],

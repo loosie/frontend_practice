@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types';
-import { Card, Popover, Button } from 'antd'
+import { Card, Popover, Button, Comment, List} from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 import Avatar from 'antd/lib/avatar/avatar';
 import PostImages from './PostImages';
+import CommentForm from './CommentForm';
 
 
 const PostCard = ({ post } ) => {
@@ -53,11 +54,23 @@ const PostCard = ({ post } ) => {
             {commentFormOpened && 
             (
                 <div>
-                    댓글 부분
+                    <CommentForm post={post}/> {/* 댓글 작성에 post.id가 필요 */}
+                    <List 
+                        header={`${post.Comments.length}개의 댓글`}
+                        itemLayout="horizontal"
+                        dataSource={post.Comments}
+                        renderItem={(item) => (
+                            <li>
+                                <Comment
+                                    author={item.User.nickname}
+                                    avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                                    content={item.content}
+                                />
+                            </li>
+                        )}
+                    />
                 </div>
             )}
-            {/* <CommentForm /> */}
-            {/* <Comments /> */}
         </div>
     )
 }
