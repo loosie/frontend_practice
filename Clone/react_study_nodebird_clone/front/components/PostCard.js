@@ -6,6 +6,7 @@ import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, Retweet
 import Avatar from 'antd/lib/avatar/avatar';
 import PostImages from './PostImages';
 import CommentForm from './form/CommentForm';
+import PostCardContent from './PostCardContent';
 
 
 const PostCard = ({ post } ) => {
@@ -48,7 +49,7 @@ const PostCard = ({ post } ) => {
                 <Card.Meta 
                     avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
                     title={post.User.nickname}
-                    description={post.content}
+                    description={<PostCardContent postData={post.content} />}
                 />
             </Card>
             {commentFormOpened && 
