@@ -7,14 +7,30 @@ export const initialState = {
 }
 
 // action creator
-export const loginAction = (data) => {
+export const loginRequestAction = (data) => {
     return {
-        type: 'LOG_IN',
+        type: 'LOG_IN_REQUEST',
         data,
     }
 }
-// action creator
-export const logoutAction = () => {
+
+export const loginSuccessAction = (data) => {
+    return {
+        type: 'LOG_IN_SUCCESS',
+        data,
+    }
+}
+
+
+export const loginSuccessAction = (data) => {
+    return {
+        type: 'LOG_IN_FAILURE',
+        data,
+    }
+}
+
+
+export const logoutRequestAction = () => {
     return {
         type: 'LOG_OUT',
     }

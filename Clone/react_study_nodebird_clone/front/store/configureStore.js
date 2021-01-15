@@ -1,10 +1,18 @@
 import { createWrapper } from 'next-redux-wrapper';
 import { compose, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import thunkMiddleware from 'redux-thunk';
+
 import reducer from '../reducers'
 
+const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) =>{
+    console.log(action);
+
+    return next(action);
+}
+
 const configureStore = () => {
-    const middlewares = [];
+    const middlewares = [thunkMiddleware, loggerMiddleware];
 
     // production: 배포용
     const enhancer = process.env.NODE_ENV === 'production'
@@ -15,7 +23,7 @@ const configureStore = () => {
 
     // store.dispatch({
     //     type: 'CHANGE_NICKNAME',
-    //     data: 'boogicho',
+    //     data: 'boogicho',å
     // })
     return store;
 
