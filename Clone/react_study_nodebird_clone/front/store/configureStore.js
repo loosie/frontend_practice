@@ -1,9 +1,10 @@
 import { createWrapper } from 'next-redux-wrapper';
 import { compose, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 
-import reducer from '../reducers'
+import reducer from '../reducers';
+import rootSaga from '../sagas';
 
 const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) =>{
     console.log(action);
@@ -12,7 +13,8 @@ const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) =>{
 }
 
 const configureStore = () => {
-    const middlewares = [thunkMiddleware, loggerMiddleware];
+    const sagaMiddleware = createSagaMiddleware();
+    const middlewares = [sagaMiddleware, loggerMiddleware];
 
     // production: 배포용
     const enhancer = process.env.NODE_ENV === 'production'
@@ -21,6 +23,7 @@ const configureStore = () => {
 
     const store = createStore(reducer, enhancer);
 
+    store.sagaTask = sagaMiddleware.run(rootSaga);
     // store.dispatch({
     //     type: 'CHANGE_NICKNAME',
     //     data: 'boogicho',å
