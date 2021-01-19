@@ -36,7 +36,7 @@ const LoginForm = () => {
             <div>
                 <label htmlFor="user-id">이메일</label>
                 <br />
-                <Input name="user-id" value={email} onChange={onChangeEmail} required />
+                <Input name="user-id" type="email" value={email} onChange={onChangeEmail} required />
             </div>
             <div>
                 <label htmlFor="user-password">비밀번호</label>
