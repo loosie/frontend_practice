@@ -15,13 +15,13 @@ function addPostAPI(data){
     return axios.post('/api/post', data)
 }
 
-function* addPost(){
+function* addPost(action){
     try{
-        const result = yield call(addPostAPI);
+        // const result = yield call(addPostAPI);
         yield delay(1000);
         yield put({
             type: ADD_POST_SUCCESS,
-            data: result.data
+            data: action.data,
         });
     }
     catch(err){
@@ -33,24 +33,26 @@ function* addPost(){
 }
 
 function addCommentAPI(data){
-    return axios.Comment('/api/post/${data.postId}/comment', data)
+    return axios.Comment('/api/post/${data.postId}/comment', data);
 }
 
-function* addComment(){
+function* addComment(action){
     try{
-        const result = yield call(addCommentAPI);
+        console.log(action.data);
+
+        // const result = yield call(addCommentAPI);
         yield delay(1000);
-        yield put({
-            type: ADD_COMMENT_SUCCESS,
-            data: result.data
-        });
-    }
-    catch(err){
-        yield put({
-            type: ADD_COMMENT_FAILURE,
-            data: err.response.data,
-        })
-    }
+          yield put({
+      type: ADD_COMMENT_SUCCESS,
+      data: action.data,
+    });
+  } catch (err) {
+    
+    yield put({
+      type: ADD_COMMENT_FAILURE,
+      data: err.response.data,
+    });
+  }
 }
 
 
