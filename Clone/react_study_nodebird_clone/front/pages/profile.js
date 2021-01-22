@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AppLayout from '../components/AppLayout'
+import Router from 'next/router';
 import Head from 'next/head'
 import FollowList from '../components/FollowList'
 import NicknameEditForm from '../components/form/NicknameEditForm'
@@ -10,7 +11,16 @@ const Profile = () => {
 
     const { me } = useSelector((state) => state.user);
 
+    useEffect(() => {
+        if(!(me && me.id)){
+            Router.push('/');
+        }
+       
+    }, [me && me.id]);
 
+    if(!me){
+        return null;
+    }
     return (
 
         <>
