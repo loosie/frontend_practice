@@ -42,6 +42,10 @@ export const initialState = {
         }]
     }],
     imagePaths: [],
+    hasMorePost: true, // 게시글 더 불러오기
+    loadPostLoading: false,
+    loadPostDone: false,
+    loadPostError: null,
     addPostLoading: false,
     addPostDone: false,
     addPostError: null,
@@ -53,26 +57,32 @@ export const initialState = {
     addCommentError: null,
 }
 
-initialState.mainPosts = initialState.mainPosts.concat(
-    Array(20).fill().map(() => ({
+// 서버에서 20개씩 데이터를 불러오는 경우 시뮬레이션 
+export const generateDummyPost = (number) => Array(number).fill().map(() => ({
+    id: shortId.generate(),
+    User: {
         id: shortId.generate(),
+        nickname: faker.name.findName()
+    },
+    content: faker.lorem.paragraph(),
+    Images: [{
+        src: faker.image.image(),
+    }],
+    Comments: [{
         User: {
             id: shortId.generate(),
             nickname: faker.name.findName()
         },
-        content: faker.lorem.paragraph(),
-        Images: [{
-            src: faker.image.imageUrl(),
-        }],
-        Comments: [{
-            User: {
-                id: shortId.generate(),
-                nickname: faker.name.findName()
-            },
-            content: faker.lorem.sentence(),
-        }],
-    })),
-);
+        content: faker.lorem.sentence(),
+    }],
+}));
+
+// 설정안하여도 saga에서 디폴트로 10개씩 불러옴
+// initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -121,6 +131,22 @@ const dummyComment = (data) => ({
 const reducer = (state = initialState, action) =>{
     return produce(state, (draft) => {
         switch (action.type){
+            case LOAD_POST_REQUEST:
+                draft.loadPostLoading = true;
+                draft.loadPostDone = false;
+                draft.loadPostError = null;
+                break;
+            case LOAD_POST_SUCCESS:
+                draft.loadPostLoading = false;
+                draft.loadPostDone = true;
+                draft.mainPosts = action.data.concat(draft.mainPosts);
+                draft.hasMorePost = draft.mainPosts.length < 50; //  게시글이 50개 이상이면 false (50개씩만 불러오기)
+                break;
+            case LOAD_POST_FAILURE:
+                draft.loadPostLoading = false;
+                draft.loadPostError = action.error;
+                break;
+
             case ADD_POST_REQUEST:
                 draft.addPostLoading = true;
                 draft.addPostDone = false;
