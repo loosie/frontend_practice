@@ -13,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
         db.Post.belongsTo(db.User);
         db.Post.hasMany(db.Comment);
         db.Post.hasMany(db.Image);
-        db.Post.belongsToMany(db.Hashtag); // 다대다 관계
+        db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag'}); // 다대다 관계
 
         // 좋아요
         db.Post.belongsToMany(db.User, { through: 'Like', as: 'Liked' }); // 좋아요 테이블 1:N - like - N:1
 
         // retweet
-        db.Post.belongsToMany(db.Post, { as: 'Retweet' }); // PostId -> RetweetId로 바뀜
+        db.Post.belongsTo(db.Post, { as: 'Retweet' }); // PostId -> RetweetId로 바뀜
     };
 
     return Post;
