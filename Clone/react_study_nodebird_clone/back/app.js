@@ -1,7 +1,10 @@
 const express = require('express')
+const cors = require('cors');
+
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const db = require('./models');
+
 const app = express();
 db.sequelize.sync()
     .then(() => {
@@ -9,6 +12,11 @@ db.sequelize.sync()
     })
     .catch(console.error);
 
+
+app.use(cors({
+    origin: '*',
+    // credentials
+}));
 // ---router보다 위에 설정----
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
