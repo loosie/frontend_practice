@@ -22,7 +22,7 @@ router.post('/login', (req,res, next)=> {
                 return next(loginErr);
             }
 
-            return res.json(user);
+            return res.status(200).json(user);
         })
     })(req, res, next);
 });
@@ -55,6 +55,12 @@ router.post('/', async(req, res) => { // POST /user/
         console.error(error);
         next(error);
     }  
+});
+
+router.post('/user/logout', (req, res)=> {
+    req.logOut();
+    req.session.destroy();
+    res.send('ok');
 });
 
 module.exports = router;

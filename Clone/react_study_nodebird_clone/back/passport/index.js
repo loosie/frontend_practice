@@ -1,13 +1,22 @@
 const passport = require('passport');
 const local = require('./local');
+const { User } = require('../models');
 
 module.exports = () => {
-    passport.serializeUser(() => {
-
+    passport.serializeUser((user, done) => {
+        done(null, user.id); //세션에 id만 저장
     });
 
-    passport.deserializeUser(() => {
+    // id로 유저 찾기
+    passport.deserializeUser(async (id, done) => {
+        try{
+            const user = await User.findOne({ where : { id }});
+            done(null, user);
 
+        }catch(error){
+            console.error(error);
+            done(error);
+        }
     });
 
     local();
