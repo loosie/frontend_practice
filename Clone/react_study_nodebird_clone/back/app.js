@@ -21,8 +21,8 @@ db.sequelize.sync()
 passportConfig();
 
 app.use(cors({
-    origin: '*',
-    // credentials
+    origin: 'http://localhost:3060',
+    credentials: true,
 }));
 // ---router보다 위에 설정----
 app.use(express.json());

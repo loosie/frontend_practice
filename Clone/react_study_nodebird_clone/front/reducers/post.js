@@ -98,10 +98,10 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
-export const addPost = (data) => ({
-    type: ADD_POST_REQUEST,
-    data,
-});
+// export const addPost = (data) => ({
+//     type: ADD_POST_REQUEST,
+//     data,
+// });
 
 export const addComment = (data) => ({
     type: ADD_COMMENT_REQUEST,
@@ -119,14 +119,14 @@ export const addComment = (data) => ({
 //     Comments: [],
 // });
 
-const dummyComment = (data) => ({
-    id: shortId.generate(),
-    content: data,
-    User: {
-        id: 1,
-        nickname: 'loosie'
-    },
-})
+// const dummyComment = (data) => ({
+//     id: shortId.generate(),
+//     content: data,
+//     User: {
+//         id: 1,
+//         nickname: 'loosie'
+//     },
+// })
 
 const reducer = (state = initialState, action) =>{
     return produce(state, (draft) => {

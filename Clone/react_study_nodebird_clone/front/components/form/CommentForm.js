@@ -2,7 +2,7 @@ import { Input, Button, Form } from 'antd';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react'
 import { useSelector,useDispatch } from 'react-redux';
-import { addComment, ADD_COMMENT_REQUEST } from '../../reducers/post';
+import { ADD_COMMENT_REQUEST,addComment } from '../../reducers/post';
 import useInput from '../hooks/useinput';
 
 const CommentForm = ({ post }) => {
@@ -22,7 +22,10 @@ const CommentForm = ({ post }) => {
     
     const onSubmitComment = useCallback( 
         () => {
-            
+            // const data ={
+            //     content: commentText, postId: post.id, userId: id
+            // }
+            // dispatch(addComment(data));
             dispatch({
                 type: ADD_COMMENT_REQUEST,
                 data: { content: commentText, postId: post.id, userId: id},

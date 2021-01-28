@@ -12,7 +12,6 @@ const BtnWrapper = styled.div`
 
 const FormWrapper = styled(Form)`
     padding: 10px;
-    
 `;
 
 const LoginForm = () => {
