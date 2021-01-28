@@ -93,10 +93,11 @@ function* removePost(action){
 
 
 function addCommentAPI(data){
-    return axios.Comment(`/post/${data.postId}/comment`, data); // POST /post/1/comment
+    return axios.post(`/post/${data.postId}/comment`, data); // POST /post/1/comment
 }
 
 function* addComment(action){
+    console.log(action);
     try{
         const result = yield call(addCommentAPI, action.data);
         yield put({

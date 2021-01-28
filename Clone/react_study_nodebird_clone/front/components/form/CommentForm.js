@@ -22,14 +22,14 @@ const CommentForm = ({ post }) => {
     
     const onSubmitComment = useCallback( 
         () => {
-            // const data ={
-            //     content: commentText, postId: post.id, userId: id
-            // }
-            // dispatch(addComment(data));
-            dispatch({
-                type: ADD_COMMENT_REQUEST,
-                data: { content: commentText, postId: post.id, userId: id},
-            });
+            const data ={
+                content: commentText, postId: post.id, userId: id
+            }
+            dispatch(addComment(data));
+            // dispatch({
+            //     type: ADD_COMMENT_REQUEST,
+            //     data: { content: commentText, postId: post.id, userId: id},
+            // });
         },
         [commentText, id]);
 

@@ -7,6 +7,39 @@ const passport = require('passport');
 
 const router = express.Router();
 
+// 항상 새로고침할때마다 보낼 요청 
+router.get('/', async (req, res, next) => { // GET /user
+    try{
+        if(req.user){
+            const fullUserWithoutPassword = await User.findOne({
+                where: { id: req.user.id },
+                // attributes: ['id', 'nickname', 'email'] //원하는 정보만 get
+                attributes: {
+                    exclude: ['password'] //password만 제외하고 모든 정보 get
+                },
+                include: [{
+                    model: Post,
+                    attributes: ['id']
+                }, {
+                    model: User,
+                    as: 'Followings',
+                    attributes: ['id']
+                }, {
+                    model: User,
+                    as: 'Followers',
+                    attributes: ['id']
+                }]
+            })
+            res.status(200).json(fullUserWithoutPassword);
+        }else{
+            res.status(200).json(null);
+        }
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
+});
+
 router.post('/login', isNotLoggedIn, (req,res, next)=> {
     passport.authenticate('local', (err, user, info) => {
         if(err){

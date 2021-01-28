@@ -6,6 +6,7 @@ import PostCard from '../components/PostCard';
 import PostForm from '../components/form/PostForm';
 import { useEffect } from 'react';
 import { LOAD_POST_REQUEST } from '../reducers/post';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 
 const Home = () => {
@@ -20,6 +21,9 @@ const Home = () => {
     },[]);
 
     useEffect(() => {
+        dispatch({
+            type: LOAD_USER_REQUEST,
+        });
         function onScroll(){
             // console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight); 
             //  마지막 scrollY + clientHeight = scrollHeight
