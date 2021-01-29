@@ -17,8 +17,13 @@ router.post('/', isLoggedIn, async (req, res, next) => {
                 model: Image,
             }, {
                 model: Comment,
+                include: [{
+                    model: User,
+                    attributes: ['id', 'nickname'],
+                }]
             }, {
                 model: User,
+                attributes: ['id', 'nickname'],
             }]
         })
         res.status(201).json(fullPost);

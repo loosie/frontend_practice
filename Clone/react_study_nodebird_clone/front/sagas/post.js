@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { delay, put, takeLatest, all, fork, throttle, call } from 'redux-saga/effects';
-import shortid from 'shortid';
+// import shortid from 'shortid';
 import {
     LOAD_POST_SUCCESS,
     LOAD_POST_FAILURE,
@@ -15,22 +15,20 @@ import {
     REMOVE_POST_REQUEST,
     REMOVE_POST_SUCCESS,
     REMOVE_POST_OF_ME,
-    generateDummyPost
+    // generateDummyPost
 } from '../reducers/post';
 import { ADD_POST_TO_ME } from '../reducers/user';
 
 function loadPostAPI(data){
-    return axios.get('/api/post', data)
+    return axios.get('/posts', data)
 }
 
 function* loadPost(action){
     try{
-        // const result = yield call(loadPostAPI);
-        const id = shortid.generate();
-        yield delay(1000);
+        const result = yield call(loadPostAPI, action.data);
         yield put({
             type: LOAD_POST_SUCCESS,
-            data: generateDummyPost(10),
+            data: result.data,
         });
     }
     catch(err){
