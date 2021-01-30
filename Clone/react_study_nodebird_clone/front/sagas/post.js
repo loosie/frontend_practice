@@ -2,6 +2,12 @@ import axios from 'axios';
 import { delay, put, takeLatest, all, fork, throttle, call } from 'redux-saga/effects';
 // import shortid from 'shortid';
 import {
+    LIKE_POST_REQUEST,
+    LIKE_POST_SUCCESS,
+    LIKE_POST_FAILURE,
+    UNLIKE_POST_REQUEST,
+    UNLIKE_POST_SUCCESS,
+    UNLIKE_POST_FAILURE,
     LOAD_POST_SUCCESS,
     LOAD_POST_FAILURE,
     LOAD_POST_REQUEST,
@@ -18,6 +24,47 @@ import {
     // generateDummyPost
 } from '../reducers/post';
 import { ADD_POST_TO_ME } from '../reducers/user';
+
+function likePostAPI(data){
+    console.log(data);
+    return axios.patch(`/post/${data}/like`);
+}
+
+function* likePost(action){
+    try{
+        const result = yield call(likePostAPI, action.data);
+        yield put({
+            type: LIKE_POST_SUCCESS,
+            data: result.data,
+        });
+    }
+    catch(err){
+        yield put({
+            type: LIKE_POST_FAILURE,
+            data: err.response.data,
+        })
+    }
+}
+
+function unlikePostAPI(data){
+    return axios.delete(`/post/${data}/like`);
+}
+
+function* unlikePost(action){
+    try{
+        const result = yield call(unlikePostAPI, action.data);
+        yield put({
+            type: UNLIKE_POST_SUCCESS,
+            data: result.data,
+        });
+    }
+    catch(err){
+        yield put({
+            type: UNLIKE_POST_FAILURE,
+            data: err.response.data,
+        })
+    }
+}
 
 function loadPostAPI(data){
     return axios.get('/posts', data)
@@ -95,7 +142,6 @@ function addCommentAPI(data){
 }
 
 function* addComment(action){
-    console.log(action);
     try{
         const result = yield call(addCommentAPI, action.data);
         yield put({
@@ -109,6 +155,14 @@ function* addComment(action){
             data: err.response.data,
         });
     }
+}
+
+function* watchLikePost(){
+    yield takeLatest(LIKE_POST_REQUEST, likePost);
+}
+
+function* watchUnlikePost(){
+    yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
 }
 
 function* watchLoadPost(){
@@ -130,6 +184,8 @@ function* watchAddComment(){
 
 export default function* postSaga(){
     yield all([
+        fork(watchLikePost),
+        fork(watchUnlikePost),
         fork(watchAddPost),
         fork(watchLoadPost),
         fork(watchRemovePost),

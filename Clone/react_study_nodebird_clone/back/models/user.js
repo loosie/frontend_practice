@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         db.User.hasMany(db.Comment);
 
         // sequelize에서 Like테이블 자동 생성
-        db.User.belongsToMany(db.Post, { through: 'Like', as: 'Likers' }); // 좋아요 테이블 1:N - like - N:1 / as: db이름 설정
+        db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' }); // 좋아요 테이블 1:N - like - N:1 / as: db이름 설정
 
         // 팔로잉,팔로워 
         db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'FollowingId' });
