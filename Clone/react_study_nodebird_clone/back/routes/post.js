@@ -68,7 +68,9 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST 
     }
 });
 
-router.patch('/:postId/like', async (req, res, next) => { //PATCH /post/1/like
+
+// 좋아요 등록
+router.patch('/:postId/like', isLoggedIn, async (req, res, next) => { //PATCH /post/1/like
     try{
         const post = await Post.findOne({ where : { id: req.params.postId }});
         if(!post){
@@ -85,7 +87,9 @@ router.patch('/:postId/like', async (req, res, next) => { //PATCH /post/1/like
 
 });
 
-router.delete('/:postId/like', async(req, res, next) => { //DELETE /post/1/like
+
+// 좋아요 해제
+router.delete('/:postId/like', isLoggedIn, async(req, res, next) => { //DELETE /post/1/like
     try{
         const post = await Post.findOne({ where : { id: req.params.postId }});
         if(!post){
@@ -100,6 +104,23 @@ router.delete('/:postId/like', async(req, res, next) => { //DELETE /post/1/like
         next(error);
     }
 });
+
+// 게시글 삭제
+router.delete('/:postId', isLoggedIn, async (req, res, next) => {
+    try{
+        await Post.destroy({
+            where: { 
+                id : req.params.postId,
+                UserId: req.user.id,
+            },
+        });
+        res.json({ PostId: parseInt(req.params.postId, 10) });
+    }
+    catch(error){
+        console.error(error);
+        next(error);
+    }
+})
 
 router.delete('/', (req, res) => {
     res.json({ id : 1 });
