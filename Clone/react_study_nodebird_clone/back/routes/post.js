@@ -15,12 +15,41 @@ try{
     fs.mkdirSync('uploads');
 }
 
-router.post('/', isLoggedIn, async (req, res, next) => {
+const upload = multer({ // scaleup 할 때 storage위치를 S3로 바꾸면 됨
+    storage: multer.diskStorage({
+        destination(req, file, done){
+            done(null, 'uploads');
+        },
+        filename(req, file, done){ // loosie.png
+            const ext = path.extname(file.originalname);  // 확장자 추출(.png)
+            const basename = path.basename(file.originalname, ext); // loosie
+            done(null, basename + '_' + new Date().getTime() + ext ); // looise2412412.png
+        },
+    }),
+    limits: { fileSize: 20* 1024* 1024}, // 용량 제한 20MB
+    // 동영상 업로드 같은 경우는 서버를 거치지 않는게 좋음 
+    // 서버 CPU나 메모리를 잡아먹어 부담을 많이줌 (돈 많이 듬)
+    // 그래서 프론트에서 바로 클라우드로 올릴 수 있게 하는게 좋음
+});
+
+
+router.post('/', isLoggedIn, upload.none(), async (req, res, next) => { //POST /post
     try{ 
         const post = await Post.create({
             content: req.body.content,
             UserId: req.user.id,
         });
+
+        if(req.body.image){
+            if(Array.isArray(req.body.image)){ // 이미지를 여러 개 올리면 image: [루지.png, 루우지.png]
+                const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));
+                await post.addImages(images);
+            }else{ // 하나만 올리면 image: loosie.png
+                const image =await Image.create({ src: req.body.image });
+                await post.addImages(image);
+            }
+        }
+
         const fullPost = await Post.findOne({
             where: { id: post.id },
             include: [{
@@ -49,22 +78,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
         }
 });
 
-const upload = multer({ // scaleup 할 때 storage위치를 S3로 바꾸면 됨
-    storage: multer.diskStorage({
-        destination(req, file, done){
-            done(null, 'uploads');
-        },
-        filename(req, file, done){ // loosie.png
-            const ext = path.extname(file.originalname);  // 확장자 추출(.png)
-            const basename = path.basename(file.originalname, ext); // loosie
-            done(null, basename + new Date().getTime() + ext ); // looise2412412.png
-        },
-    }),
-    limits: { fileSize: 20* 1024* 1024}, // 용량 제한 20MB
-    // 동영상 업로드 같은 경우는 서버를 거치지 않는게 좋음 
-    // 서버 CPU나 메모리를 잡아먹어 부담을 많이줌 (돈 많이 듬)
-    // 그래서 프론트에서 바로 클라우드로 올릴 수 있게 하는게 좋음
-});
+
 
 // 이미지 업로드
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { // POST /post/images
