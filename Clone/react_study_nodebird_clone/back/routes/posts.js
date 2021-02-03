@@ -1,13 +1,19 @@
 const express = require('express');
-
+const { Op } = require('sequelize');
 const { Post, User, Image, Comment } = require('../models');
 
 const router = express.Router();
 
 router.get('/', async (req, res, next) => { //GET /posts
     try{
+        const where = {};
+        if (parseInt(req.query.lastId, 10)){ // 초기 로딩이 아닐 때
+            where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}; // id가 lastId보다 작은 것만 불러와라 (Op.lt = 작은 것)
+        }
+
         const posts = await Post.findAll({
             // where: { id : lastId },
+            where,
             limit: 10,
             // offset: 0, // 1~10 offset은 로드하는 중에 새로운 게시글을 업로드할 때 에러가 발생하기 때문에 실무에서 사용 잘 안함  -> lastId방식으로 대체
             

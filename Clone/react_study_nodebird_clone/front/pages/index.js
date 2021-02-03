@@ -24,13 +24,13 @@ const Home = () => {
     useEffect(() =>{
         dispatch({
             type: LOAD_POST_REQUEST,
-        })
-    },[]);
-
-    useEffect(() => {
+        });
         dispatch({
             type: LOAD_USER_REQUEST,
         });
+    },[]);
+
+    useEffect(() => {
         function onScroll(){
             // console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight); 
             //  마지막 scrollY + clientHeight = scrollHeight
@@ -38,8 +38,10 @@ const Home = () => {
             //  스크롤 다 내리면 새로운 게시글 로딩
             if (window.scrollY + document.documentElement.clientHeight  > document.documentElement.scrollHeight -300){
                 if(hasMorePost && !loadPostLoading){
+                    const lastId = mainPosts[mainPosts.length -1]?.id;
                     dispatch({
                         type: LOAD_POST_REQUEST,
+                        lastId,
                     })
                 }
             }
@@ -49,7 +51,7 @@ const Home = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    } , [hasMorePost, loadPostLoading]);
+    } , [hasMorePost, loadPostLoading, mainPosts]);
 
   
 

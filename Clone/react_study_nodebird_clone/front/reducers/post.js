@@ -226,8 +226,9 @@ const reducer = (state = initialState, action) =>{
             case LOAD_POST_SUCCESS:
                 draft.loadPostLoading = false;
                 draft.loadPostDone = true;
-                draft.mainPosts = action.data.concat(draft.mainPosts);
-                draft.hasMorePost = draft.mainPosts.length < 50; //  게시글이 50개 이상이면 false (50개씩만 불러오기)
+                draft.mainPosts = draft.mainPosts.concat(action.data);
+                // draft.hasMorePost = draft.mainPosts.length < 50; //  게시글이 50개 이상이면 false (50개씩만 불러오기)
+                draft.hasMorePost = action.data.length === 10; // 10개씩 불러오고 다음에 1~9개의 게시글이 남았을테니 마지막으로 불러오고 종료 (10단위의 게시글의 갯수이면 문제 발생 1번 낭비)
                 break;
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = false;
