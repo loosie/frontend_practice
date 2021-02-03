@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { Form, Input, Button} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { addPost, ADD_POST_REQUEST } from '../../reducers/post';
+import { addPost, ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post';
 import useinput from '../hooks/useinput';
 
 
@@ -11,7 +11,7 @@ const PostForm = () => {
     const { imagePaths, addPostDone } = useSelector(state => state.post)
     const dispatch = useDispatch();
     const [text, onChangeText, setText] = useinput('');
-    const imageInput = useRef();
+    
 
     useEffect(() => {
         if (addPostDone){
@@ -30,9 +30,24 @@ const PostForm = () => {
         },
         [text]);
 
+    const imageInput = useRef();
     const onClickImageUpload = useCallback(() =>{
         imageInput.current.click();
     }, [imageInput.current])
+
+    const onChangeImages = useCallback(
+        (e) => {
+            console.log('images', e.target.files);
+            const imageFormData = new FormData();
+            [].forEach.call(e.target.files, (f) => {
+                imageFormData.append('image', f);
+            });
+
+            dispatch({
+                type: UPLOAD_IMAGES_REQUEST,
+                data: imageFormData,
+            });
+        });
 
     return (
         <Form style={{ margin: '10px 0 20px'}} encType="multipart/form-data" onFinish={onSubmit}>
@@ -44,13 +59,13 @@ const PostForm = () => {
             />
 
             <div>
-                <input type="file" multiple hidden ref={imageInput}/>
+                <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages}/>
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
                 <Button type="primary" style={{float:'right'}} htmlType="submit">짹짹</Button>
             </div>
             <div>
                 {imagePaths.map((v) =>(
-                    <div key={v} style={{ display }}>
+                    <div key={v} style={{ display: 'inline-block' }}>
                         <img src={v} style={{ width: '200px'}} alt={v} />
                         <div>
                             <Button>제거</Button>

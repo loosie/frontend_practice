@@ -1,9 +1,19 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const { User, Post, Image, Comment } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
+
+try{
+    fs.accessSync('uploads');
+} catch(error){
+    console.log('uploads폴더가 없으므로 생성합니다.');
+    fs.mkdirSync('uploads');
+}
 
 router.post('/', isLoggedIn, async (req, res, next) => {
     try{ 
@@ -37,6 +47,30 @@ router.post('/', isLoggedIn, async (req, res, next) => {
             console.error(error);
             next(error);
         }
+});
+
+const upload = multer({ // scaleup 할 때 storage위치를 S3로 바꾸면 됨
+    storage: multer.diskStorage({
+        destination(req, file, done){
+            done(null, 'uploads');
+        },
+        filename(req, file, done){ // loosie.png
+            const ext = path.extname(file.originalname);  // 확장자 추출(.png)
+            const basename = path.basename(file.originalname, ext); // loosie
+            done(null, basename + new Date().getTime() + ext ); // looise2412412.png
+        },
+    }),
+    limits: { fileSize: 20* 1024* 1024}, // 용량 제한 20MB
+    // 동영상 업로드 같은 경우는 서버를 거치지 않는게 좋음 
+    // 서버 CPU나 메모리를 잡아먹어 부담을 많이줌 (돈 많이 듬)
+    // 그래서 프론트에서 바로 클라우드로 올릴 수 있게 하는게 좋음
+});
+
+// 이미지 업로드
+router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { // POST /post/images
+    console.log(req.files);
+    
+    res.json(req.files.map((v) => v.filename));
 });
 
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST /post/1/comment
