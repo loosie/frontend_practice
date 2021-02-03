@@ -66,6 +66,9 @@ export const initialState = {
     uploadImagesLoading: false,
     uploadImagesDone: false,
     uploadImagesError: null,
+    retweetLoading: false,
+    retweetDone: false,
+    retweetError: null,
 }
 
 // 서버에서 20개씩 데이터를 불러오는 경우 시뮬레이션 
@@ -119,6 +122,10 @@ export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
+export const RETWEET_REQUEST = 'RETWEET_REQUEST';
+export const RETWEET_SUCCESS = 'RETWEET_SUCCESS';
+export const RETWEET_FAILURE = 'RETWEET_FAILURE';
+
 // 동기 액션은 하나만 생성해도됨
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
@@ -161,20 +168,20 @@ const reducer = (state = initialState, action) =>{
                 draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
                 break;
 
-            case UPLOAD_IMAGES_REQUEST:
-                draft.uploadImagesLoading = true;
-                draft.uploadImagesDone = false;
-                draft.uploadImagesError = null;
+            case RETWEET_REQUEST:
+                draft.retweetLoading = true;
+                draft.retweetDone = false;
+                draft.retweetError = null;
                 break;
-            case UPLOAD_IMAGES_SUCCESS: {
-                draft.imagePaths = action.data;
-                draft.uploadImagesLoading = false;
-                draft.uploadImagesDone = true;
+            case RETWEET_SUCCESS: {
+                draft.retweetLoading = false;
+                draft.retweetDone = true;
+                draft.mainPosts.unshift(action.data);
                 break;
             }
-            case UPLOAD_IMAGES_FAILURE:
-                draft.uploadImagesLoading = false;
-                draft.uploadImagesError = action.error;
+            case RETWEET_FAILURE:
+                draft.retweetLoading = false;
+                draft.retweetError = action.error;
                 break;
                 
             case LIKE_POST_REQUEST:
