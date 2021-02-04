@@ -8,7 +8,7 @@ import rootSaga from '../sagas';
 
 
 const configureStore = (context) => {
-    console.log(context);
+    // console.log(context);
     const sagaMiddleware = createSagaMiddleware();
     const middlewares = [sagaMiddleware];
 
