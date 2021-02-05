@@ -6,9 +6,10 @@ import PostCard from '../components/PostCard';
 import PostForm from '../components/form/PostForm';
 import { useEffect } from 'react';
 import { LOAD_POST_REQUEST } from '../reducers/post';
-import { LOAD_USER_REQUEST } from '../reducers/user';
+import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import { END } from 'redux-saga';
+import axios from 'axios';
 
 
 const Home = () => {
@@ -63,13 +64,21 @@ const Home = () => {
 
 // Home Component보다 더 빨리 실행됨
 export const getServerSideProps = wrapper.getServerSideProps(async (context) =>{
-    console.log(context);
+
+    const cookie = context.req ? context.req.headers.cookie : '';
+
+    // 조심! nextSSR할때 쿠키 공유문제
+    axios.defaults.headers.Cookie = ''; 
+
+    if(context.req && cookie ){ // 서버일 때 && 쿠키가 있을 때만 전송
+        axios.defaults.headers.Cookie = cookie;
+    }
 
     context.store.dispatch({
         type: LOAD_POST_REQUEST,
     });
     context.store.dispatch({
-        type: LOAD_USER_REQUEST,
+        type: LOAD_MY_INFO_REQUEST,
     });
 
     context.store.dispatch(END);

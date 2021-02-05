@@ -8,7 +8,8 @@ const passport = require('passport');
 const router = express.Router();
 
 // 항상 새로고침할때마다 보낼 요청 
-router.get('/', async (req, res, next) => { // GET /user
+router.get('/', async (req, res, next) => { // GET /user (myinfo)
+    console.log(req.headers);
     try{
         if(req.user){
             const fullUserWithoutPassword = await User.findOne({
