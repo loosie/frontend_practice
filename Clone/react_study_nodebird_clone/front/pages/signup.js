@@ -6,7 +6,13 @@ import useInput from '../components/hooks/useinput';
 import styled from 'styled-components';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
+
+import axios from 'axios';
+import {  LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import Router from 'next/router';
+
+
+import wrapper from '../store/configureStore';
 
 const ErrorMessage = styled.div`
     color: red;
@@ -117,5 +123,26 @@ const Signup = () => {
     </AppLayout>
     )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) =>{
+    console.log('getServerSideProps Start');
+    console.log(context.req.headers);
+    const cookie = context.req ? context.req.headers.cookie : '';
+
+    // 조심! nextSSR할때 쿠키 공유문제
+    axios.defaults.headers.Cookie = ''; 
+
+    if(context.req && cookie ){ // 서버일 때 && 쿠키가 있을 때만 전송
+        axios.defaults.headers.Cookie = cookie;
+    }
+
+    context.store.dispatch({
+        type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch(END);
+    console.log('getServerSideProps End');
+    await context.store.sagaTask.toPromise();
+});
 
 export default Signup

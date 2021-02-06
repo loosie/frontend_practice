@@ -9,7 +9,6 @@ const router = express.Router();
 
 // 항상 새로고침할때마다 보낼 요청 
 router.get('/', async (req, res, next) => { // GET /user (myinfo)
-    console.log(req.headers);
     try{
         if(req.user){
             const fullUserWithoutPassword = await User.findOne({
@@ -34,6 +33,48 @@ router.get('/', async (req, res, next) => { // GET /user (myinfo)
             res.status(200).json(fullUserWithoutPassword);
         }else{
             res.status(200).json(null);
+        }
+    }catch(error){
+        console.error(error);
+        next(error);
+    }
+});
+
+// 다른 유저정보 가져오기
+router.get('/:userId', async (req, res, next) => { // GET /user/1
+    try{
+            const fullUserWithoutPassword = await User.findOne({
+                where: { id: parseInt(req.params.userId,10) },
+                // attributes: ['id', 'nickname', 'email'] //원하는 정보만 get
+                attributes: {
+                    exclude: ['password'] //password만 제외하고 모든 정보 get
+                },
+                include: [{
+                    model: Post,
+                    attributes: ['id']
+                }, {
+                    model: User,
+                    as: 'Followings',
+                    attributes: ['id']
+                }, {
+                    model: User,
+                    as: 'Followers',
+                    attributes: ['id']
+                }]
+            })
+            
+
+        if(fullUserWithoutPassword){
+            const data = fullUserWithoutPassword.toJson(); //sequelize data -> Json data로 변경
+            
+            // 개인정보 침해 예방
+            data.Posts = data.Posts.length;  
+            data.Followers = data.Followers.length;
+            data.Followings = data.Followings.length;
+
+            res.status(200).json(fullUserWithoutPassword);
+        }else{
+            res.status(404).json('존재하지 않는 사용자입니다.');
         }
     }catch(error){
         console.error(error);

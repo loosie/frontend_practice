@@ -5,7 +5,10 @@ import Head from 'next/head'
 import FollowList from '../components/FollowList'
 import NicknameEditForm from '../components/form/NicknameEditForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../reducers/user';
+
+import axios from 'axios';
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
+import wrapper from '../store/configureStore';
 
 
 const Profile = () => {
@@ -46,5 +49,27 @@ const Profile = () => {
         </>
     )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) =>{
+    console.log('getServerSideProps Start');
+    console.log(context.req.headers);
+    const cookie = context.req ? context.req.headers.cookie : '';
+
+    // 조심! nextSSR할때 쿠키 공유문제
+    axios.defaults.headers.Cookie = ''; 
+
+    if(context.req && cookie ){ // 서버일 때 && 쿠키가 있을 때만 전송
+        axios.defaults.headers.Cookie = cookie;
+    }
+
+    context.store.dispatch({
+        type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch(END);
+    console.log('getServerSideProps End');
+    await context.store.sagaTask.toPromise();
+});
+
 
 export default Profile
