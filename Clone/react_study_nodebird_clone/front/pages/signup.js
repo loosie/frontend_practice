@@ -8,6 +8,7 @@ import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
+import { END } from 'redux-saga';
 import {  LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import Router from 'next/router';
 

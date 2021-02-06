@@ -11,6 +11,9 @@ import {
     LOAD_POST_SUCCESS,
     LOAD_POST_FAILURE,
     LOAD_POST_REQUEST,
+    LOAD_POSTS_SUCCESS,
+    LOAD_POSTS_FAILURE,
+    LOAD_POSTS_REQUEST,
     ADD_POST_SUCCESS,
     ADD_POST_FAILURE,
     ADD_POST_REQUEST,
@@ -111,14 +114,13 @@ function* unlikePost(action){
     }
 }
 
-function loadPostAPI(lastId){
-    // return axios.get(`/posts?lastId=${lastId}&limit=10&offset=10`);
-    return axios.get(`/posts?lastId=${lastId || 0}`);
+function loadPostAPI(data){
+    return axios.get(`/post/${data}`);
 }
 
 function* loadPost(action){
     try{
-        const result = yield call(loadPostAPI, action.lastId);
+        const result = yield call(loadPostAPI, action.data);
         yield put({
             type: LOAD_POST_SUCCESS,
             data: result.data,
@@ -131,6 +133,28 @@ function* loadPost(action){
         })
     }
 }
+
+function loadPostsAPI(lastId){
+    // return axios.get(`/posts?lastId=${lastId}&limit=10&offset=10`);
+    return axios.get(`/posts?lastId=${lastId || 0}`);
+}
+
+function* loadPosts(action){
+    try{
+        const result = yield call(loadPostsAPI, action.lastId);
+        yield put({
+            type: LOAD_POSTS_SUCCESS,
+            data: result.data,
+        });
+    }
+    catch(err){
+        yield put({
+            type: LOAD_POSTS_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
+
 
 function addPostAPI(data){
     return axios.post('/post', data);
@@ -222,6 +246,10 @@ function* watchLoadPost(){
     yield takeLatest(LOAD_POST_REQUEST, loadPost);
 }
 
+function* watchLoadPosts(){
+    yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
+}
+
 function* watchAddPost(){
     yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -243,6 +271,7 @@ export default function* postSaga(){
         fork(watchUnlikePost),
         fork(watchAddPost),
         fork(watchLoadPost),
+        fork(watchLoadPosts),
         fork(watchRemovePost),
         fork(watchAddComment),
     ]);

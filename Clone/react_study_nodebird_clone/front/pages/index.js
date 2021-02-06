@@ -5,8 +5,9 @@ import AppLayout from '../components/AppLayout'
 import PostCard from '../components/PostCard';
 import PostForm from '../components/form/PostForm';
 import { useEffect } from 'react';
-import { LOAD_POST_REQUEST } from '../reducers/post';
+import { LOAD_POSTS_REQUEST } from '../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
+
 import wrapper from '../store/configureStore';
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -14,7 +15,7 @@ import axios from 'axios';
 
 const Home = () => {
     const { me } = useSelector(state => state.user);
-    const { mainPosts, hasMorePost, loadPostLoading, retweetError } = useSelector(state => state.post);
+    const { mainPosts, hasMorePost, loadPostsLoading, retweetError } = useSelector(state => state.post);
 
     const dispatch = useDispatch();
     
@@ -35,10 +36,10 @@ const Home = () => {
             
             //  스크롤 다 내리면 새로운 게시글 로딩
             if (window.scrollY + document.documentElement.clientHeight  > document.documentElement.scrollHeight -300){
-                if(hasMorePost && !loadPostLoading){
+                if(hasMorePost && !loadPostsLoading){
                     const lastId = mainPosts[mainPosts.length -1]?.id;
                     dispatch({
-                        type: LOAD_POST_REQUEST,
+                        type: LOAD_POSTS_REQUEST,
                         lastId,
                     })
                 }
@@ -49,7 +50,7 @@ const Home = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    } , [hasMorePost, loadPostLoading, mainPosts]);
+    } , [hasMorePost, loadPostsLoading, mainPosts]);
 
   
 
@@ -75,7 +76,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) =>{
     }
 
     context.store.dispatch({
-        type: LOAD_POST_REQUEST,
+        type: LOAD_POSTS_REQUEST,
     });
     context.store.dispatch({
         type: LOAD_MY_INFO_REQUEST,

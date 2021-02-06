@@ -7,6 +7,7 @@ import NicknameEditForm from '../components/form/NicknameEditForm'
 import { useDispatch, useSelector } from 'react-redux'
 
 import axios from 'axios';
+import { END } from 'redux-saga';
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 
