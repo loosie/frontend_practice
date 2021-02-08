@@ -14,6 +14,12 @@ import {
     LOAD_POSTS_SUCCESS,
     LOAD_POSTS_FAILURE,
     LOAD_POSTS_REQUEST,
+    LOAD_USER_POSTS_FAILURE,
+    LOAD_USER_POSTS_REQUEST,
+    LOAD_USER_POSTS_SUCCESS,
+    LOAD_HASHTAG_POSTS_REQUEST,
+    LOAD_HASHTAG_POSTS_SUCCESS,
+    LOAD_HASHTAG_POSTS_FAILURE,
     ADD_POST_SUCCESS,
     ADD_POST_FAILURE,
     ADD_POST_REQUEST,
@@ -134,6 +140,49 @@ function* loadPost(action){
     }
 }
 
+
+
+function loadUserPostsAPI(data, lastId){
+    return axios.get(`/user/${data}/posts?lastId=${lastId || 0}`);
+}
+
+function* loadUserPosts(action){
+    try{
+        const result = yield call(loadUserPostsAPI, action.data, action.lastId);
+        yield put({
+            type: LOAD_USER_POSTS_SUCCESS,
+            data: result.data,
+        });
+    }
+    catch(err){
+        yield put({
+            type: LOAD_USER_POSTS_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
+
+function loadHashtagPostsAPI(data, lastId){
+    return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
+}
+
+function* loadHashtagPosts(action){
+    try{
+        const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
+        yield put({
+            type: LOAD_HASHTAG_POSTS_SUCCESS,
+            data: result.data,
+        });
+    }
+    catch(err){
+        yield put({
+            type: LOAD_HASHTAG_POSTS_FAILURE,
+            error: err.response.data,
+        })
+    }
+}
+
+
 function loadPostsAPI(lastId){
     // return axios.get(`/posts?lastId=${lastId}&limit=10&offset=10`);
     return axios.get(`/posts?lastId=${lastId || 0}`);
@@ -246,6 +295,14 @@ function* watchLoadPost(){
     yield takeLatest(LOAD_POST_REQUEST, loadPost);
 }
 
+function* watchLoadUserPosts(){
+    yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
+
+function* watchLoadHashtagPosts(){
+    yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+}
+
 function* watchLoadPosts(){
     yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
@@ -272,6 +329,8 @@ export default function* postSaga(){
         fork(watchAddPost),
         fork(watchLoadPost),
         fork(watchLoadPosts),
+        fork(watchLoadUserPosts),
+        fork(watchLoadHashtagPosts),
         fork(watchRemovePost),
         fork(watchAddComment),
     ]);

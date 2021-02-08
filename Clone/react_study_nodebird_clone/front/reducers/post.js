@@ -118,6 +118,16 @@ export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 
+// 특정 사용자의 글만 보여줌
+export const LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST';
+export const LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS';
+export const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE';
+
+// 해쉬태그 검색 게시글
+export const LOAD_HASHTAG_POSTS_REQUEST = 'LOAD_HASHTAG_POSTS_REQUEST';
+export const LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS';
+export const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE';
+
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
@@ -225,7 +235,7 @@ const reducer = (state = initialState, action) =>{
                 draft.unlikePostLoading = false;
                 draft.unlikePostError = action.error;
                 break;  
-
+            
             case LOAD_POST_REQUEST:
                 draft.loadPostLoading = true;
                 draft.loadPostDone = false;
@@ -241,12 +251,18 @@ const reducer = (state = initialState, action) =>{
                 draft.loadPostError = action.error;
                 break;
 
+            // 한 페이지 내에서 액션들이 같이 사용되지 않는다면 state 재사용 가능
             case LOAD_POSTS_REQUEST:
+            case LOAD_USER_POSTS_REQUEST:
+            case LOAD_HASHTAG_POSTS_REQUEST:
                 draft.loadPostsLoading = true;
                 draft.loadPostsDone = false;
                 draft.loadPostsError = null;
                 break;
+
             case LOAD_POSTS_SUCCESS:
+            case LOAD_USER_POSTS_SUCCESS:
+            case LOAD_HASHTAG_POSTS_SUCCESS:
                 draft.loadPostsLoading = false;
                 draft.loadPostsDone = true;
                 draft.mainPosts = draft.mainPosts.concat(action.data);
@@ -254,6 +270,8 @@ const reducer = (state = initialState, action) =>{
                 draft.hasMorePost = action.data.length === 10; // 10개씩 불러오고 다음에 1~9개의 게시글이 남았을테니 마지막으로 불러오고 종료 (10단위의 게시글의 갯수이면 문제 발생 1번 낭비)
                 break;
             case LOAD_POSTS_FAILURE:
+            case LOAD_USER_POSTS_FAILURE:
+            case LOAD_HASHTAG_POSTS_FAILURE:
                 draft.loadPostsLoading = false;
                 draft.loadPostsError = action.error;
                 break;
