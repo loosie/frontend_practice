@@ -1,3 +1,4 @@
+//styledComponents SSR
 {
     "preset": ["next/babel"],
     "plugins": [
