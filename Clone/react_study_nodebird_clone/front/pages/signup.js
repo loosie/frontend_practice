@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react'
 import AppLayout from '../components/AppLayout'
 import { Form, Input, Checkbox, Button } from 'antd';
 import Head from 'next/head'
-import useInput from '../components/hooks/useinput';
+import useInput from '../hooks/useinput';
 import styled from 'styled-components';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';

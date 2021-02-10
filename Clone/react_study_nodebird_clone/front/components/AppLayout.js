@@ -7,7 +7,7 @@ import Router from 'next/router';
 import UserProfile from '../components/UserProfile';
 import LoginForm from './form/LoginForm';
 import styled, {createGlobalStyle} from 'styled-components';
-import useInput from './hooks/useinput';
+import useInput from '../hooks/useinput';
 
 
 const Global = createGlobalStyle`

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react'
 import { useSelector,useDispatch } from 'react-redux';
 import { ADD_COMMENT_REQUEST,addComment } from '../../reducers/post';
-import useInput from '../hooks/useinput';
+import useInput from '../../hooks/useinput';
 
 const CommentForm = ({ post }) => {
 
