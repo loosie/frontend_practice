@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Menu, Input, Row, Col } from 'antd';
 import Router from 'next/router';
 import UserProfile from '../components/UserProfile';
-import LoginForm from './form/LoginForm';
+import LoginForm from './LoginForm';
 import styled, {createGlobalStyle} from 'styled-components';
 import useInput from '../hooks/useinput';
 

@@ -7,7 +7,7 @@ import Avatar from 'antd/lib/avatar/avatar';
 import moment from 'moment';
 
 import PostImages from './PostImages';
-import CommentForm from './form/CommentForm';
+import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, RETWEET_REQUEST } from '../reducers/post';
 import FollowButton from './FollowButton';

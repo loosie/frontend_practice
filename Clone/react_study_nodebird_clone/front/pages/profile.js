@@ -3,7 +3,7 @@ import AppLayout from '../components/AppLayout'
 import Router from 'next/router';
 import Head from 'next/head'
 import FollowList from '../components/FollowList'
-import NicknameEditForm from '../components/form/NicknameEditForm'
+import NicknameEditForm from '../components/NicknameEditForm'
 import { useDispatch, useSelector } from 'react-redux'
 import useSWR from 'swr';
 

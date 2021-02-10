@@ -3,7 +3,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import AppLayout from '../components/AppLayout'
 import PostCard from '../components/PostCard';
-import PostForm from '../components/form/PostForm';
+import PostForm from '../components/PosForm';
 import { useEffect } from 'react';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';

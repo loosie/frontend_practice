@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Form, Input } from 'antd';
-import { CHANGE_NICKNAME_REQUEST } from '../../reducers/user';
+import { CHANGE_NICKNAME_REQUEST } from '../reducers/user';
 import useInput from '../hooks/useinput';
 import { useDispatch, useSelector } from 'react-redux';
 
