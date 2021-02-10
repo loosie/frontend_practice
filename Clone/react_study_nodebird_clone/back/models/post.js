@@ -1,15 +1,25 @@
-module.exports = (sequelize, DataTypes) => {
-    const Post = sequelize.define('Post', { 
-         // mysql에 id 기본적으로 세팅되어있음.
-        content: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
-    }, {
-        charset: 'utf8mb4',
-        collate: 'utf8mb4_general_ci', //  한글, 이모티콘(mb4) 저장
-    });
-    Post.associate = (db) => {
+const DataTypes = require('sequelize');
+const { Model } = DataTypes;
+
+// Model 최신 문법
+module.exports = class Post extends Model{
+    static init(sequelize){
+        return super.init({
+            content: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
+            // RetweetId
+        },{
+            modelName: 'Post',
+            tableName: 'posts',
+            charset: 'utf8mb4',
+            collate: 'utf8mb4_general_ci', //  한글, 이모티콘(mb4) 저장
+            sequelize,
+        });
+    }
+
+    static associate(db){
         db.Post.belongsTo(db.User); // post.addUser, post.getUser
         db.Post.hasMany(db.Comment); // post.addComments, post.getComments
         db.Post.hasMany(db.Image); // post.addImages, post.getImages
@@ -20,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 
         // retweet
         db.Post.belongsTo(db.Post, { as: 'Retweet' }); // PostId -> RetweetId로 바뀜 // post.addRetweet
-    };
+    }
+};
 
-    return Post;
-}
+
