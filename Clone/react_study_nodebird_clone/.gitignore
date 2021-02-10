@@ -20,7 +20,9 @@ thumb
 sketch
 
 .next
+.env
 # End of https://www.toptal.com/developers/gitignore/api/react
 
 /back/config
 /back/.env
+react-nodebird.pem

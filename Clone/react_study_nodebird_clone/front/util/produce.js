@@ -1,4 +1,4 @@
-import produce, { enableES5 } from 'immer';
+import { enableES5, produce } from 'immer';
 
 export default (...args) => {
     enableES5();
