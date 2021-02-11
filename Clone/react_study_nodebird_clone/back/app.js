@@ -31,14 +31,19 @@ if(process.env.NODE_ENV === 'production'){
     app.use(morgan('combined'));
     app.use(hpp());
     app.use(helmet());
+    app.use(cors({
+        origin: ['http://bluedot.im'],
+        credentials: true,
+    }));
 }else{
     app.use(morgan('dev'));
+    app.use(cors({
+        origin: ['http://localhost:3060', 'http://bluedot.im'],
+        credentials: true,
+    }));
 }
 
-app.use(cors({
-    origin: ['http://localhost:3060', 'http://bluedot.im'],
-    credentials: true,
-}));
+
 // ---router보다 위에 설정----
 app.use('/', express.static(path.join(__dirname, 'uploads'))); // 폴더명 합쳐줌 __dirname + /uploads (OS에 따라 경로구분자가 다르기 때문에 path.join사용)
 app.use(express.json());
