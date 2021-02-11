@@ -36,7 +36,7 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 app.use(cors({
-    origin: ['http://localhost:3060', 'nodebird.com', 'http://54.180.24.91'],
+    origin: ['http://localhost:3060', 'http://bluedot.im'],
     credentials: true,
 }));
 // ---router보다 위에 설정----
@@ -49,6 +49,11 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        domain: process.env.NODE_ENV === 'production' && '.bluedot.im'
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

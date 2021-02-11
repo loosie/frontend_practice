@@ -1,1 +1,1 @@
-export const backUrl = 'http://15.164.221.17';
+export const backUrl = 'http://api.bluedot.im';
