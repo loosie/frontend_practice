@@ -186,6 +186,23 @@ const reducer = (state = initialState, action) =>{
                 draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
                 break;
 
+            case UPLOAD_IMAGES_REQUEST:
+                draft.uploadImagesLoading = true;
+                draft.uploadImagesDone = false;
+                draft.uploadImagesError = null;
+                break;
+            case UPLOAD_IMAGES_SUCCESS: {
+                draft.imagePaths = draft.imagePaths.concat(action.data);
+                draft.uploadImagesLoading = false;
+                draft.uploadImagesDone = true;
+                break;
+            }
+            case UPLOAD_IMAGES_FAILURE:
+                draft.uploadImagesLoading = false;
+                draft.uploadImagesError = action.error;
+            break;
+
+
             case RETWEET_REQUEST:
                 draft.retweetLoading = true;
                 draft.retweetDone = false;
@@ -280,12 +297,12 @@ const reducer = (state = initialState, action) =>{
                 draft.addPostLoading = true;
                 draft.addPostDone = false;
                 draft.addPostError = null;
-                draft.imagePaths = [];
                 break;
             case ADD_POST_SUCCESS:
                 draft.addPostLoading = false;
                 draft.addPostDone = true;
                 draft.mainPosts.unshift(action.data);
+                draft.imagePaths = [];
                 break;
             case ADD_POST_FAILURE:
                 draft.addPostLoading = false;
