@@ -48,7 +48,7 @@ const PostForm = () => {
 
     const onChangeImages = useCallback(
         (e) => {
-            console.log('images', e.target.files);
+            // console.log('images', e.target.files);
             const imageFormData = new FormData();
             [].forEach.call(e.target.files, (f) => {
                 imageFormData.append('image', f);
@@ -85,7 +85,7 @@ const PostForm = () => {
             <div>
                 {imagePaths.map((v, i) =>(
                     <div key={v} style={{ display: 'inline-block' }}>
-                        <img src={`${backUrl}/${v}`} style={{ width: '200px'}} alt={v} />
+                        <img src={v} style={{ width: '200px'}} alt={v} />
                         <div>
                             <Button onClick={onRemoveImage(i)}>제거</Button>
                         </div>
