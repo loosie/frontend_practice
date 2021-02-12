@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { Form, Input, Button} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { addPost, ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../reducers/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../reducers/post';
 import useInput from '../hooks/useinput';
-import { backUrl } from '../config/config';
 
 
 
@@ -34,10 +33,10 @@ const PostForm = () => {
             formData.append('content', text);
 
             // dispatch(addPost(text));
-            dispatch({
+            return dispatch({
                 type: ADD_POST_REQUEST,
                 data: formData,
-            })
+            });
         },
         [text, imagePaths]);
 
