@@ -26,7 +26,7 @@ AWS.config.update({
 })
 
 const upload = multer({ // scaleup 할 때 storage위치를 S3로 바꾸면 됨
-    storage: multer.S3({
+    storage: multerS3({
         s3: new AWS.S3(),
         bucket: 'react-nodebird-s3',
         key(req, file, cb){
