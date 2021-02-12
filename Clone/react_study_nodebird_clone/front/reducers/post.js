@@ -1,6 +1,6 @@
-import shortId from 'shortid';
+// import shortId from 'shortid';
 import produce from '../util/produce';
-import faker from 'faker';
+// import faker from 'faker';
 
 export const initialState = {
     mainPosts: [
@@ -76,24 +76,24 @@ export const initialState = {
 }
 
 // 서버에서 20개씩 데이터를 불러오는 경우 시뮬레이션 
-export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-    id: shortId.generate(),
-    User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName()
-    },
-    content: faker.lorem.paragraph(),
-    Images: [{
-        src: faker.image.image(),
-    }],
-    Comments: [{
-        User: {
-            id: shortId.generate(),
-            nickname: faker.name.findName()
-        },
-        content: faker.lorem.sentence(),
-    }],
-}));
+// export const generateDummyPost = (number) => Array(number).fill().map(() => ({
+//     id: shortId.generate(),
+//     User: {
+//         id: shortId.generate(),
+//         nickname: faker.name.findName()
+//     },
+//     content: faker.lorem.paragraph(),
+//     Images: [{
+//         src: faker.image.image(),
+//     }],
+//     Comments: [{
+//         User: {
+//             id: shortId.generate(),
+//             nickname: faker.name.findName()
+//         },
+//         content: faker.lorem.sentence(),
+//     }],
+// }));
 
 // 설정안하여도 saga에서 디폴트로 10개씩 불러옴
 // initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));

@@ -4,12 +4,12 @@ import Router from 'next/router';
 import Head from 'next/head'
 import FollowList from '../components/FollowList'
 import NicknameEditForm from '../components/NicknameEditForm'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import useSWR from 'swr';
 
 import axios from 'axios';
 import { END } from 'redux-saga';
-import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
+import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import { backUrl } from '../config/config';
 

@@ -30,7 +30,7 @@ const upload = multer({ // scaleup 할 때 storage위치를 S3로 바꾸면 됨
         s3: new AWS.S3(),
         bucket: 'react-nodebird-loosie',
         key(req, file, cb){
-            cb(null, `original/${Date.now()}_${path.basename(file.orignalname)}`);
+            cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
         }
     }),
     limits: { fileSize: 20* 1024* 1024}, // 용량 제한 20MB
