@@ -20,14 +20,14 @@ exports.handler = (event, context, callback) => {
         console.log('original', s3Object.Body.length);
 
         const resizedImage = await sharp(s3Object.Body)
-            .resize(200, 200, { fit: 'inside'})
+            .resize(400, 400, { fit: 'inside'})
             .toFormat(requiredFormat)
             .toBuffer();
         await s3.putObject({
             Bucket,
             Key: `thumb/${filename}`,
             Body: resizedImage,
-        });
+        }).promise();
         console.log('put', resizedImage.length);
         
         return callback(null, `thumb/${filename}`);
