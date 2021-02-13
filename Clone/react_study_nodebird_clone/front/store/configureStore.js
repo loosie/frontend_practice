@@ -7,10 +7,15 @@ import reducer from '../reducers';
 import rootSaga from '../sagas';
 
 
-const configureStore = (context) => {
-    // console.log(context);
+const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
+    console.log(action);
+    return next(action);
+};
+
+
+const configureStore = () => {
     const sagaMiddleware = createSagaMiddleware();
-    const middlewares = [sagaMiddleware];
+    const middlewares = [sagaMiddleware, loggerMiddleware];
 
     const enhancer = process.env.NODE_ENV === 'production'
     ? compose(applyMiddleware(...middlewares))
