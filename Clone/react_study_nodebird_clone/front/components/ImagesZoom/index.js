@@ -27,7 +27,8 @@ const ImagesZoom = ({ images, onClose }) => {
                     >
                         {images.map((v) =>(
                             <ImgWrapper key={v.src}>
-                                <img src={`${v.src}`} alt={v.src}/>
+                                <img src={`${v.src.replace(/\/thumb\//, '/original/')}`} alt={v.src}/>  
+                                {/* 상세보기할 떄는 thumb를 original(원본)로 다시 변경  */}
                             </ImgWrapper>
                         ))}
                     </Slick>
