@@ -6,6 +6,10 @@ h1 {
   display: inline;
 }
 
+.weather {
+  color: #ffffff;
+}
+
 .form,
 .greetings {
   display: none;
