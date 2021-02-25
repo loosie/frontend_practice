@@ -7,8 +7,9 @@ const TODO_LS = "toDos";
 let toDos = [];
 
 function deleteToDo(event){
-    const btn = event.target;
+    const btn = event.target; // 버튼 id (target)
     const li = btn.parentNode;
+    // console.log(li);
     toDoList.removeChild(li);
 
     const cleanToDos = toDos.filter(function(toDo){
@@ -16,6 +17,8 @@ function deleteToDo(event){
     });
     
     toDos = cleanToDos;
+
+    // console.log(toDos);
     saveToDos();
 }
 
@@ -23,13 +26,17 @@ function saveToDos(){
     localStorage.setItem(TODO_LS, JSON.stringify(toDos));
 }
 
+let id =1;
 function paintToDo(text){
     const li = document.createElement("li");
     const delBtn = document.createElement("button");
     const span = document.createElement("span");
-    const newId = toDos.length +1;
+    const newId = Date.now();
+    
 
     delBtn.innerText = "❌";
+
+    // 삭제 처리  
     delBtn.addEventListener("click", deleteToDo);
 
     span.innerText = text;
@@ -44,7 +51,6 @@ function paintToDo(text){
         text: text,
         id: newId
     };
-
     toDos.push(toDoObj);
     saveToDos();
 }
@@ -55,6 +61,7 @@ function handleSubmit(event){
     const currentValue = toDoInput.value;
     paintToDo(currentValue);
     toDoInput.value = "";
+    saveToDos();
 }
 
 function loadToDos(){
