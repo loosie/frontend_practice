@@ -1,5 +1,3 @@
-'use strict';
-
 const Sequelize = require('sequelize');
 const comment = require('./comment');
 const hashtag = require('./hashtag');
