@@ -32,15 +32,17 @@
 
     Ref. [ZeroCho - React로 Nodebird SNS 만들기](https://www.inflearn.com/course/%EB%85%B8%EB%93%9C%EB%B2%84%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%A6%AC%EB%89%B4%EC%96%BC/dashboard)
 
-<br>
+8.  react-hooks (React)
 
+    Ref. [실전형 리액트 Hooks 10개](https://nomadcoders.co/react-hooks-introduction)
+
+    <br>
 
 ## View List
 
-
 1. nav_bar clone (html + css)
-    
-    Ref. [드림코딩 by 엘리 - 웹사이트 따라만들기, 반응형 헤더편 ](https://www.youtube.com/watch?v=X91jsJyZofw&list=PLv2d7VI9OotQ1F92Jp9Ce7ovHEsuRQB3Y&index=14&ab_channel=%EB%93%9C%EB%A6%BC%EC%BD%94%EB%94%A9by%EC%97%98%EB%A6%AC)
+
+   Ref. [드림코딩 by 엘리 - 웹사이트 따라만들기, 반응형 헤더편 ](https://www.youtube.com/watch?v=X91jsJyZofw&list=PLv2d7VI9OotQ1F92Jp9Ce7ovHEsuRQB3Y&index=14&ab_channel=%EB%93%9C%EB%A6%BC%EC%BD%94%EB%94%A9by%EC%97%98%EB%A6%AC)
 
 2. Youtube Mobile 버전 (html + css)
 
