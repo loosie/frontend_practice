@@ -12,6 +12,8 @@
 
 #### Movie App (React)
 - [NomadCoders - ReactJS로 영화 웹 서비스 만들기](https://nomadcoders.co/react-fundamentals)
+  - Deployment Repo : [github repo](https://github.com/loosie/react_movie_app)
+  - Deployment Page : [react movie app page](https://loosie.github.io/react_movie_app/#/)
 
 #### boliler-plate 제작 (React + Nodejs)
 - [John Ahn - react,node 기초 강의](https://www.youtube.com/watch?v=fgoMqmNKE18&list=PL9a7QRYt5fqkZC9jc7jntD1WuAogjo_9T&ab_channel=JohnAhn)
